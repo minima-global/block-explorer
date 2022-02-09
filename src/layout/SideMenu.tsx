@@ -43,15 +43,19 @@ const SideMenu = ({ handleDrawerToggle }: IProps) => {
 
             <List>
                 {Routes.map((route, i) => {
-                    return (
-                        <ListItem button onClick={onMenuItemClicked(route.path)} key={i}>
-                            <ListItemIcon>
-                                <Radio sx={{ p: 0 }} checked={activeRoute(route.path)} />
-                            </ListItemIcon>
+                    if (route.sidebarName) {
+                        return (
+                            <ListItem button onClick={onMenuItemClicked(route.path)} key={i}>
+                                <ListItemIcon>
+                                    <Radio sx={{ p: 0 }} checked={activeRoute(route.path)} />
+                                </ListItemIcon>
 
-                            <ListItemText primary={route.sidebarName} />
-                        </ListItem>
-                    );
+                                <ListItemText primary={route.sidebarName} />
+                            </ListItem>
+                        );
+                    } else {
+                        return <></>;
+                    }
                 })}
             </List>
 

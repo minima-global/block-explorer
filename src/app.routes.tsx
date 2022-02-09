@@ -4,10 +4,12 @@ import Page3 from './pages/Page3';
 import Balance from './pages/Balance';
 import Send from './pages/Send';
 import Terminal from './pages/Terminal';
+import Block from './pages/Block/Block';
+import BlockDetail from './pages/Block/BlockDetail';
 
 export interface RouteType {
     path: string;
-    sidebarName: string;
+    sidebarName?: string;
     element: JSX.Element;
 }
 
@@ -41,6 +43,16 @@ const Routes: RouteType[] = [
         path: '/terminal',
         sidebarName: 'Terminal',
         element: <Terminal></Terminal>,
+    },
+    {
+        path: '/block',
+        sidebarName: 'Block',
+        element: <Block></Block>,
+    },
+    {
+        path: '/block/:txpowid',
+        // no sidebar item
+        element: <BlockDetail></BlockDetail>,
     },
 ];
 
