@@ -1,24 +1,24 @@
 import useStatus from '../../minima/useStatus';
-import useRecentBlocks from '../../minima/useRecentBlocks';
 import { DataGrid, GridColDef, GridRowParams, GridCallbackDetails } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 import { MuiEvent } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
+import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
 
 const recentBlockColumns: GridColDef[] = [
     { field: 'block', headerName: 'Block', flex: 100 },
     { field: 'hash', headerName: 'Hash', flex: 100 },
-    { field: 'transactions', headerName: 'TKNS', flex: 100 },
+    { field: 'transactions', headerName: 'TKNS', flex: 100, align: 'center', headerAlign: 'center' },
     { field: 'relayed', headerName: 'Relayed', flex: 100 },
 ];
 
 const Block = () => {
     // const status = useStatus();
-    const recentBlocks = useRecentBlocks();
+    const blocksContextData = useRecentBlocksContext();
     const routerNavigate = useNavigate();
 
     // console.log('status', status);
-    console.log('recentBlocks', recentBlocks);
+    console.log('blocksContextData', blocksContextData);
 
     const onGridRowClicked = (
         params: GridRowParams,
@@ -32,17 +32,22 @@ const Block = () => {
 
     return (
         <>
-            <h1>Block</h1>
-            <div style={{ height: 400, width: '100%' }}>
+            <Box sx={{ height: 500, width: '100%', mt: 2 }}>
                 <DataGrid
-                    rows={recentBlocks}
+                    rows={blocksContextData.recentBlocks}
                     columns={recentBlockColumns}
                     getRowId={(row) => row.block}
                     onRowClick={onGridRowClicked}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
+                    density="compact"
+                    initialState={{
+                        sorting: {
+                            sortModel: [{ field: 'block', sort: 'desc' }],
+                        },
+                    }}
                 />
-            </div>
+            </Box>
         </>
     );
 };

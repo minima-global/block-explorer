@@ -12,7 +12,7 @@ import {
     Grid,
 } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Routes from '../app.routes';
+import Routes, { RouteType } from '../app.routes';
 // import useBlockNumber from '../minima/useBlockNumber';
 import { ReactComponent as LandscapeLogo } from './LANDSCAPE-01.svg';
 import useMinimaInit from '../minima/useMinimaInit';
@@ -35,6 +35,8 @@ const SideMenu = ({ handleDrawerToggle }: IProps) => {
         handleDrawerToggle();
     };
 
+    const sidebarRoutes = Routes.filter((route: RouteType) => !!route.sidebarName);
+
     return (
         <>
             <Toolbar />
@@ -42,20 +44,16 @@ const SideMenu = ({ handleDrawerToggle }: IProps) => {
             <Divider />
 
             <List>
-                {Routes.map((route, i) => {
-                    if (route.sidebarName) {
-                        return (
-                            <ListItem button onClick={onMenuItemClicked(route.path)} key={i}>
-                                <ListItemIcon>
-                                    <Radio sx={{ p: 0 }} checked={activeRoute(route.path)} />
-                                </ListItemIcon>
+                {sidebarRoutes.map((route, i) => {
+                    return (
+                        <ListItem button onClick={onMenuItemClicked(route.path)} key={i}>
+                            <ListItemIcon>
+                                <Radio sx={{ p: 0 }} checked={activeRoute(route.path)} />
+                            </ListItemIcon>
 
-                                <ListItemText primary={route.sidebarName} />
-                            </ListItem>
-                        );
-                    } else {
-                        return <></>;
-                    }
+                            <ListItemText primary={route.sidebarName} />
+                        </ListItem>
+                    );
                 })}
             </List>
 

@@ -17,10 +17,11 @@ const DisplayItem = ({ heading, text, link }: Iprops) => {
                 p: 2,
                 mt: 1,
                 minWidth: 300,
+                fontSize: 14,
             }}
         >
-            <h5>{heading}</h5>
-            <Box sx={{ overflow: 'hidden' }}>{link ? <Link to={link}>{text}</Link> : <p>{text}</p>}</Box>
+            <Box sx={{ fontWeight: 'bold' }}>{heading}</Box>
+            <Box sx={{ overflow: 'hidden', mt: 0.5 }}>{link ? <Link to={link}>{text}</Link> : text}</Box>
         </Box>
     );
 };

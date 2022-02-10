@@ -3,8 +3,15 @@
 import { createContext, useContext, ReactNode } from 'react';
 import useRecentBlocks from './useRecentBlocks';
 import { RecentBlock } from './useRecentBlocks';
+import { useState } from 'react';
 
-const RecentBlocksContext = createContext<RecentBlock[]>([]);
+interface IRecentBlocksContext {
+    recentBlocks: RecentBlock[];
+    visibleBlockNumber: number;
+    setVisibleBlockNumber: (blockNumber: number) => void;
+}
+
+const RecentBlocksContext = createContext<IRecentBlocksContext | undefined>(undefined);
 
 interface IProps {
     children: ReactNode;
@@ -12,7 +19,9 @@ interface IProps {
 
 function RecentBlocksProvider({ children }: IProps) {
     const recentBlocks = useRecentBlocks();
-    return <RecentBlocksContext.Provider value={recentBlocks}>{children}</RecentBlocksContext.Provider>;
+    const [visibleBlockNumber, setVisibleBlockNumber] = useState(0);
+    const value = { recentBlocks, visibleBlockNumber, setVisibleBlockNumber };
+    return <RecentBlocksContext.Provider value={value}>{children}</RecentBlocksContext.Provider>;
 }
 
 function useRecentBlocksContext() {

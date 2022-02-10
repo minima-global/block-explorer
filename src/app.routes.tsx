@@ -14,36 +14,36 @@ export interface RouteType {
 }
 
 const Routes: RouteType[] = [
-    {
-        path: '/',
-        sidebarName: 'Page 1',
-        element: <Page1></Page1>,
-    },
-    {
-        path: '/page2',
-        sidebarName: 'Page 2',
-        element: <Page2></Page2>,
-    },
-    {
-        path: '/page3',
-        sidebarName: 'Page 3',
-        element: <Page3></Page3>,
-    },
-    {
-        path: '/balance',
-        sidebarName: 'Balance',
-        element: <Balance></Balance>,
-    },
-    {
-        path: '/send',
-        sidebarName: 'Send',
-        element: <Send></Send>,
-    },
-    {
-        path: '/terminal',
-        sidebarName: 'Terminal',
-        element: <Terminal></Terminal>,
-    },
+    // {
+    //     path: '/',
+    //     sidebarName: 'Page 1',
+    //     element: <Page1></Page1>,
+    // },
+    // {
+    //     path: '/page2',
+    //     sidebarName: 'Page 2',
+    //     element: <Page2></Page2>,
+    // },
+    // {
+    //     path: '/page3',
+    //     sidebarName: 'Page 3',
+    //     element: <Page3></Page3>,
+    // },
+    // {
+    //     path: '/balance',
+    //     sidebarName: 'Balance',
+    //     element: <Balance></Balance>,
+    // },
+    // {
+    //     path: '/send',
+    //     sidebarName: 'Send',
+    //     element: <Send></Send>,
+    // },
+    // {
+    //     path: '/terminal',
+    //     sidebarName: 'Terminal',
+    //     element: <Terminal></Terminal>,
+    // },
     {
         path: '/block',
         sidebarName: 'Block',
