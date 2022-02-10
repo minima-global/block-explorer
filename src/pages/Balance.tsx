@@ -4,8 +4,6 @@ import { List, ListItem, Grid } from '@mui/material';
 const Balance = () => {
     const balance = useBalance();
 
-    // console.log('balance', balance);
-
     return (
         <>
             <Grid container spacing={2}>

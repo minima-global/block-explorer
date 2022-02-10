@@ -22,14 +22,15 @@ export default function Layout() {
     };
 
     const onBackArrowClicked = () => {
-        routerNavigate('/block');
+        routerNavigate('/');
     };
 
     // path will look like this on detail page: /block/0x0000002AC916A9733CE92ED56036142419EBA57386F723E5D59B5843DDD33B97
     // path will look ike this on main page: /block
     function isOnBlockDetailPage(path: string) {
         const sections = path.split('/');
-        return sections.length > 2;
+        const lastSection = sections[sections.length - 1];
+        return lastSection.startsWith('0x');
     }
 
     function getPageName() {

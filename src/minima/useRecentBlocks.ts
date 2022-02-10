@@ -29,7 +29,6 @@ const useRecentBlocks = () => {
         // get the txpow,
         // and resolve the promise to its parent txpowid
         const getParentId = (txpowId: string) => {
-            console.log('getting parent id:', txpowId);
             return getTxpow(txpowId).then((txpow: any) => {
                 historicalTxPows.push(txpow);
                 return txpow.header.superparents[0].parent;
@@ -56,10 +55,8 @@ const useRecentBlocks = () => {
 
         // get the first txpowid and fire off the chain of promises
         getCurrentTxpowid().then((firstParent) => {
-            console.log('firstParent:', firstParent);
             const allComplete = transformData(firstParent);
             allComplete.then((res: any) => {
-                console.log('historicalTxPows', historicalTxPows);
                 const historicalRecentBlocks: RecentBlock[] = historicalTxPows.map((txpow: any) => {
                     return {
                         block: parseInt(txpow.header.block),
@@ -83,7 +80,6 @@ const useRecentBlocks = () => {
         // if the block is already in the list, don't add it again
         if (typeof newBlock === 'undefined') {
             const txpowId = status.chain.hash;
-            console.log('searching txpowid:', txpowId);
             getTxpow(txpowId).then(
                 (txpow: any) => {
                     // TODO: create txpow type
@@ -94,7 +90,6 @@ const useRecentBlocks = () => {
                         relayed: new Date(txpow.header.date),
                         parent: txpow.header.superparents[0].parent,
                     };
-                    console.log('update recent blocks', recentBlocks);
                     setRecentBlocks((oldArray) => [...oldArray, newRecentBlock]);
                 },
                 (err) => {

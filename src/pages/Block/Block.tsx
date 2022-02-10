@@ -17,17 +17,13 @@ const Block = () => {
     const blocksContextData = useRecentBlocksContext();
     const routerNavigate = useNavigate();
 
-    // console.log('status', status);
-    console.log('blocksContextData', blocksContextData);
-
     const onGridRowClicked = (
         params: GridRowParams,
         event: MuiEvent<React.MouseEvent>,
         details: GridCallbackDetails
     ) => {
         const hash = params.row.hash;
-        console.log('hash', hash);
-        routerNavigate(`/block/${hash}`);
+        routerNavigate(`/${hash}`);
     };
 
     return (

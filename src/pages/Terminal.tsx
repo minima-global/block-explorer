@@ -19,7 +19,6 @@ const Terminal = () => {
     useEffect(() => {
         callCommand('status').then(
             (data: any) => {
-                console.log(data);
                 if (data.status) {
                     const welcome = `
                      /$$      /$$ /$$           /$$                        
@@ -63,7 +62,6 @@ const Terminal = () => {
 
             callCommand(command).then(
                 (data: any) => {
-                    console.log(data);
                     setCommand('');
                     if (data.status) {
                         setCommandResponses((old) => [...old, data.response]);

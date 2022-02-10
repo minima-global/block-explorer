@@ -28,14 +28,9 @@ const BlockDetail = () => {
         }
     }, [txpowid, blocksContextData]);
 
-    console.log(txpow);
-    // console.log(txpow.header.block);
-
     const onTabSelected = (event: SyntheticEvent, newValue: number) => {
         setTabNumber(newValue);
     };
-
-    console.log(tabNumber);
 
     const DetailContainer = ({ children }: any) => {
         return (
@@ -68,7 +63,7 @@ const BlockDetail = () => {
                     <DisplayItem
                         heading="Parent"
                         text={myTxpow.header.superparents[0].parent}
-                        link={`/block/${myTxpow.header.superparents[0].parent}`}
+                        link={`/${myTxpow.header.superparents[0].parent}`}
                     />
                 </DetailContainer>
 
@@ -85,7 +80,7 @@ const BlockDetail = () => {
                 <DetailContainer>
                     <h4>Transactions</h4>
                     {transactions.map((txnHash: string, i: number) => (
-                        <DisplayItem heading="Transaction" text={txnHash} link={`/block/${txnHash}`} key={i} />
+                        <DisplayItem heading="Transaction" text={txnHash} link={`/${txnHash}`} key={i} />
                     ))}
                 </DetailContainer>
             );

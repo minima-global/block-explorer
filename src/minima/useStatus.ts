@@ -31,7 +31,6 @@ const useStatus = () => {
 
         // cleanup
         return () => {
-            console.log('destroying status subscription');
             clearInterval(subscription);
         };
     }, []);

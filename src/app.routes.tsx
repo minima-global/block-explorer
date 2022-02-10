@@ -45,12 +45,12 @@ const Routes: RouteType[] = [
     //     element: <Terminal></Terminal>,
     // },
     {
-        path: '/block',
+        path: '/',
         sidebarName: 'Block',
         element: <Block></Block>,
     },
     {
-        path: '/block/:txpowid',
+        path: '/:txpowid',
         // no sidebar item
         element: <BlockDetail></BlockDetail>,
     },
