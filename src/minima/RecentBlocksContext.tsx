@@ -7,8 +7,11 @@ import { useState } from 'react';
 
 interface IRecentBlocksContext {
     recentBlocks: RecentBlock[];
+    blockTablePage: RecentBlock[];
+    setVisiblePage: (topBlock: number) => void;
     visibleBlockNumber: number;
     setVisibleBlockNumber: (blockNumber: number) => void;
+    setSearchString: (searchString: string) => void;
 }
 
 const RecentBlocksContext = createContext<IRecentBlocksContext | undefined>(undefined);
@@ -18,9 +21,21 @@ interface IProps {
 }
 
 function RecentBlocksProvider({ children }: IProps) {
-    const recentBlocks = useRecentBlocks();
+    const blocks = useRecentBlocks();
+    const recentBlocks = blocks.recentBlocks;
+    const blockTablePage = blocks.blockTablePage;
+    const setVisiblePage = blocks.setVisiblePage;
+    const setSearchString = blocks.setSearchString;
     const [visibleBlockNumber, setVisibleBlockNumber] = useState(0);
-    const value = { recentBlocks, visibleBlockNumber, setVisibleBlockNumber };
+
+    const value = {
+        recentBlocks,
+        blockTablePage,
+        setVisiblePage,
+        visibleBlockNumber,
+        setVisibleBlockNumber,
+        setSearchString,
+    };
     return <RecentBlocksContext.Provider value={value}>{children}</RecentBlocksContext.Provider>;
 }
 

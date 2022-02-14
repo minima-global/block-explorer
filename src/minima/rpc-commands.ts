@@ -60,6 +60,32 @@ export const getTxpow = (txpowId: string) => {
     });
 };
 
+export const getTxpowByBlockNumber = (blockNumber: number) => {
+    const command = `txpow block:${blockNumber}`;
+    return new Promise((resolve, reject) => {
+        Minima.cmd(command, (data: any) => {
+            if (data.status) {
+                resolve(data.response);
+            } else {
+                reject(data); // TODO: handle error
+            }
+        });
+    });
+};
+
+export const getTxpowByAddress = (address: string) => {
+    const command = `txpow address:${address}`;
+    return new Promise((resolve, reject) => {
+        Minima.cmd(command, (data: any) => {
+            if (data.status) {
+                resolve(data.response);
+            } else {
+                reject(data); // TODO: handle error
+            }
+        });
+    });
+};
+
 export const callBalance = () => {
     return callCommand(BALANCE);
 };

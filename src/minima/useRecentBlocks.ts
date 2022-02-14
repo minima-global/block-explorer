@@ -1,6 +1,6 @@
 import useStatus from './useStatus';
 import { useState, useEffect } from 'react';
-import { getTxpow } from './rpc-commands';
+import { getTxpow, getTxpowByBlockNumber, getTxpowByAddress } from './rpc-commands';
 import { ContactsOutlined } from '@mui/icons-material';
 import { callStatus } from './rpc-commands';
 
@@ -16,7 +16,80 @@ const HISTORICAL_BLOCK_COUNT = 10;
 
 const useRecentBlocks = () => {
     const [recentBlocks, setRecentBlocks] = useState<RecentBlock[]>([]);
+    const [blockTablePage, setBlockTablePage] = useState<RecentBlock[]>([]);
+    // const [blockTablePageFrom, setBlockTablePageFrom] = useState<number>(0); // highest block number on blockTablePage
+    const [latestBlockNumber, setLatestBlockNumber] = useState<number>(0);
+    const [visiblePage, setVisiblePage] = useState<number>(0);
+    const [searchString, setSearchString] = useState<string>('');
     const status = useStatus();
+
+    // table will be in 2 modes.
+    // 1) An updating mode when new blocks will be visible straight away
+    // 2) A search mode when search resuts are visible but the table doesnt update
+
+    useEffect(() => {
+        const blockNum: number = status.chain.block;
+        setLatestBlockNumber(blockNum);
+    }, [status]);
+
+    useEffect(() => {
+        const isAddress = (address: string) => {
+            return address.startsWith('0x') && address.length === 66;
+        };
+
+        if (searchString === '') {
+            let pageTxpowPromises: Promise<any>[] = [];
+            console.log('new block get the latest 10 blocks from ' + latestBlockNumber);
+
+            const topBlock = latestBlockNumber - visiblePage * HISTORICAL_BLOCK_COUNT;
+
+            for (let i = topBlock; i > topBlock - HISTORICAL_BLOCK_COUNT; i--) {
+                pageTxpowPromises.push(getTxpowByBlockNumber(i));
+            }
+
+            Promise.all(pageTxpowPromises).then((txpows) => {
+                console.log('got txpows for blocks ' + topBlock + ' to ' + (topBlock - HISTORICAL_BLOCK_COUNT), txpows);
+                const tableTxpows = txpows.map((txpow) => {
+                    return {
+                        block: parseInt(txpow.header.block),
+                        hash: txpow.txpowid,
+                        transactions: txpow.body.txnlist.length,
+                        relayed: new Date(txpow.header.date),
+                        parent: txpow.header.superparents[0].parent,
+                    };
+                });
+                setBlockTablePage(tableTxpows);
+            }, console.error);
+        } else {
+            console.log('searching for ' + searchString);
+            let isnum = /^\d+$/.test(searchString);
+            if (isnum) {
+                console.log('search for txpow by block number ' + searchString);
+                getTxpowByBlockNumber(parseInt(searchString)).then((txpows) => {
+                    console.log('got txpow for ' + searchString, txpows);
+                }, console.error);
+            } else {
+                console.log('NaN, checking for address');
+                if (isAddress(searchString)) {
+                    getTxpowByAddress(searchString).then((txpows: any) => {
+                        console.log('got txpow for ' + searchString, txpows);
+                        const searchBlocks: RecentBlock[] = txpows.map((txpow: any) => {
+                            return {
+                                block: parseInt(txpow.header.block),
+                                hash: txpow.txpowid,
+                                transactions: txpow.body.txnlist.length,
+                                relayed: new Date(txpow.header.date),
+                                parent: txpow.header.superparents[0].parent,
+                            };
+                        });
+                        setBlockTablePage(searchBlocks);
+                    }, console.error);
+                } else {
+                    console.log('not an address');
+                }
+            }
+        }
+    }, [visiblePage, latestBlockNumber, searchString]);
 
     // Do this only once
     // use status command to get the first txpowid
@@ -99,7 +172,7 @@ const useRecentBlocks = () => {
         }
     }, [status]);
 
-    return recentBlocks;
+    return { recentBlocks, blockTablePage, setVisiblePage, setSearchString };
 };
 
 export default useRecentBlocks;

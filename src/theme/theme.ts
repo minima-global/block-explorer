@@ -5,6 +5,9 @@ import { createTheme } from '@mui/material/styles';
 
 // A custom theme for this app
 let theme = createTheme({
+    status: {
+        danger: '#e53e3e',
+    },
     palette: {
         primary: {
             main: '#317aff',
@@ -155,5 +158,11 @@ declare module '@mui/material/styles' {
     interface PaletteOptions {
         darkBlack?: PaletteOptions['primary'];
         menu?: PaletteOptions['primary'];
+    }
+
+    interface ThemeOptions {
+        status: {
+            danger: React.CSSProperties['color'];
+        };
     }
 }
