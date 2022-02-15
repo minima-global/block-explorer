@@ -26,7 +26,6 @@ const useRecentBlocks = () => {
     const status = useStatus();
     const [recentBlocks, setRecentBlocks] = useState<RecentBlock[]>([]);
     const [latestBlockNumber, setLatestBlockNumber] = useState<number>(0);
-    const [visiblePage, setVisiblePage] = useState<number>(0);
     const [searchString, setSearchString] = useState<string>('');
 
     // visible table rows and pagination state
@@ -40,10 +39,6 @@ const useRecentBlocks = () => {
     // table will be in 2 modes.
     // 1) An updating mode when new blocks will be visible straight away
     // 2) A search mode when search resuts are visible but the table doesnt update
-
-    useEffect(() => {
-        setVisiblePage(rowsState.page);
-    }, [rowsState.page]);
 
     useEffect(() => {
         const blockNum: number = status.chain.block;
@@ -69,7 +64,7 @@ const useRecentBlocks = () => {
             let pageTxpowPromises: Promise<any>[] = [];
             console.log('new block get the latest 10 blocks from ' + latestBlockNumber);
 
-            const topBlock = latestBlockNumber - visiblePage * HISTORICAL_BLOCK_COUNT;
+            const topBlock = latestBlockNumber - rowsState.page * HISTORICAL_BLOCK_COUNT;
 
             for (let i = topBlock; i > topBlock - HISTORICAL_BLOCK_COUNT; i--) {
                 pageTxpowPromises.push(getTxpowByBlockNumber(i));
@@ -120,7 +115,7 @@ const useRecentBlocks = () => {
                 }
             }
         }
-    }, [visiblePage, latestBlockNumber, searchString]);
+    }, [rowsState.page, latestBlockNumber, searchString]);
 
     // Do this only once
     // use status command to get the first txpowid
@@ -205,7 +200,7 @@ const useRecentBlocks = () => {
         }
     }, [status]);
 
-    return { recentBlocks, setVisiblePage, setSearchString, rowsState, setRowsState };
+    return { recentBlocks, setSearchString, rowsState, setRowsState };
 };
 
 export default useRecentBlocks;
