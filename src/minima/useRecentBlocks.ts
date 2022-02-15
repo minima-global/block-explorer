@@ -23,13 +23,13 @@ interface RowsState {
 const HISTORICAL_BLOCK_COUNT = 10;
 
 const useRecentBlocks = () => {
+    const status = useStatus();
     const [recentBlocks, setRecentBlocks] = useState<RecentBlock[]>([]);
-    const [blockTablePage, setBlockTablePage] = useState<RecentBlock[]>([]);
-    // const [blockTablePageFrom, setBlockTablePageFrom] = useState<number>(0); // highest block number on blockTablePage
     const [latestBlockNumber, setLatestBlockNumber] = useState<number>(0);
     const [visiblePage, setVisiblePage] = useState<number>(0);
     const [searchString, setSearchString] = useState<string>('');
-    const status = useStatus();
+
+    // visible table rows and pagination state
     const [rowsState, setRowsState] = useState<RowsState>({
         page: 0,
         pageSize: 10,
@@ -40,10 +40,6 @@ const useRecentBlocks = () => {
     // table will be in 2 modes.
     // 1) An updating mode when new blocks will be visible straight away
     // 2) A search mode when search resuts are visible but the table doesnt update
-
-    useEffect(() => {
-        setRowsState((prev) => ({ ...prev, loading: false, rows: blockTablePage }));
-    }, [blockTablePage]);
 
     useEffect(() => {
         setVisiblePage(rowsState.page);
@@ -91,7 +87,7 @@ const useRecentBlocks = () => {
                         txpowid: txpow.txpowid,
                     };
                 });
-                setBlockTablePage(tableTxpows);
+                setRowsState((prev) => ({ ...prev, loading: false, rows: tableTxpows }));
             }, console.error);
         } else {
             console.log('searching for ' + searchString);
@@ -117,7 +113,7 @@ const useRecentBlocks = () => {
                                 txpowid: txpow.txpowid,
                             };
                         });
-                        setBlockTablePage(searchBlocks);
+                        setRowsState((prev) => ({ ...prev, loading: false, rows: searchBlocks }));
                     }, console.error);
                 } else {
                     console.log('not an address');
@@ -209,7 +205,7 @@ const useRecentBlocks = () => {
         }
     }, [status]);
 
-    return { recentBlocks, blockTablePage, setVisiblePage, setSearchString, rowsState, setRowsState };
+    return { recentBlocks, setVisiblePage, setSearchString, rowsState, setRowsState };
 };
 
 export default useRecentBlocks;
