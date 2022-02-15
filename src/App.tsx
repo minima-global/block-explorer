@@ -6,6 +6,7 @@ import Routes from './app.routes';
 import Container from '@mui/material/Container';
 import Layout from './layout/Layout';
 import { SnackbarProvider } from 'notistack';
+import { RecentBlocksProvider } from './minima/RecentBlocksContext';
 
 export default function App() {
     const myRoutes = useRoutes(Routes);
@@ -14,8 +15,10 @@ export default function App() {
         <>
             <ThemeProvider theme={theme}>
                 <SnackbarProvider maxSnack={3}>
-                    <CssBaseline />
-                    <Layout />
+                    <RecentBlocksProvider>
+                        <CssBaseline />
+                        <Layout />
+                    </RecentBlocksProvider>
                 </SnackbarProvider>
             </ThemeProvider>
         </>

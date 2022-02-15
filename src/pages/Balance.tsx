@@ -5,8 +5,6 @@ import MinimaIcon from '../assets/images/minimaLogoSquare200x200.png';
 const Balance = () => {
     const balance = useBalance();
 
-    console.log('balance', balance);
-
     return (
         <>
             <Grid container spacing={2} sx={{ marginTop: { xs: 0 } }}>

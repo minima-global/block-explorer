@@ -1,10 +1,13 @@
 import ManropRegular from './Manrope-Regular.woff2';
 import FrostedBlue from './frosted-blue.jpg';
-import uiBackground from './ui-background.png';
+import uiBackground from './LM.jpg';
 import { createTheme } from '@mui/material/styles';
 
 // A custom theme for this app
 let theme = createTheme({
+    status: {
+        danger: '#e53e3e',
+    },
     palette: {
         primary: {
             main: '#317aff',
@@ -60,6 +63,10 @@ let theme = createTheme({
                 font-family: Manrope-regular;
                 src: url(${ManropRegular}) format('woff2');
             }
+            body {
+                background-image: url(${uiBackground});
+                background-size: cover;
+            }
           `,
         },
     },
@@ -97,32 +104,29 @@ theme = createTheme(theme, {
                     backgroundColor: 'rgba(255, 255, 255, 0.5)',
                     borderRadius: 8,
                     input: {
-                        paddingLeft: 16,                        
+                        paddingLeft: 16,
                         borderRadius: 8,
                         fontWeight: '400',
                         fontSize: '1rem',
                         '&::placeholder': {
                             color: '#91919D',
                             fontSize: '1rem',
-                            fontWeight: '100'
+                            fontWeight: '100',
                         },
                         '&:focus': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)'
-                        }
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                        },
                     },
-                    
-                }
-            }
+                },
+            },
         },
-        MuiListItemButton: {
+        MuiDataGrid: {
             styleOverrides: {
                 root: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    borderRadius: 8,
-                    minHeight: 64
-                }
-            }
-        }
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                },
+            },
+        },
     },
 });
 
@@ -154,5 +158,11 @@ declare module '@mui/material/styles' {
     interface PaletteOptions {
         darkBlack?: PaletteOptions['primary'];
         menu?: PaletteOptions['primary'];
+    }
+
+    interface ThemeOptions {
+        status: {
+            danger: React.CSSProperties['color'];
+        };
     }
 }

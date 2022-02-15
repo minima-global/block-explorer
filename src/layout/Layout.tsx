@@ -1,36 +1,45 @@
 import { useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, Box, Container } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Routes from '../app.routes';
 import { RouteType } from './../app.routes';
-import { useLocation, useRoutes } from 'react-router-dom';
+import { useLocation, useRoutes, useNavigate } from 'react-router-dom';
 import SideMenu from './SideMenu';
+import { useRecentBlocksContext } from '../minima/RecentBlocksContext';
 
 const drawerWidth = 240;
 
 export default function Layout() {
+    const blocksContextData = useRecentBlocksContext();
     const myRoutes = useRoutes(Routes);
+    const routerNavigate = useNavigate();
+    const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setIsOpen((op) => !op);
     };
 
-    // TODO:
-    // Use the react-router hook called 'useLocation' to get the current path
-    // Use getPageName function to get current page
-    // Add page name to html below
-
-    const location = useLocation().pathname;
-
-    const getPageName = (allRoutes: RouteType[], currentPath: string) => {
-        const foundRoute = allRoutes.find((route) => route.path === currentPath);
-        if (typeof foundRoute === 'undefined') {
-            console.error('Can not find route for path ' + currentPath);
-        } else {
-            return foundRoute.sidebarName;
-        }
+    const onBackArrowClicked = () => {
+        routerNavigate('/');
     };
+
+    // path will look like this on detail page: /block/0x0000002AC916A9733CE92ED56036142419EBA57386F723E5D59B5843DDD33B97
+    // path will look ike this on main page: /block
+    function isOnBlockDetailPage(path: string) {
+        const sections = path.split('/');
+        const lastSection = sections[sections.length - 1];
+        return lastSection.startsWith('0x');
+    }
+
+    function getPageName() {
+        if (isOnBlockDetailPage(location.pathname)) {
+            return `Block ${blocksContextData.visibleBlockNumber}`;
+        } else {
+            return 'Explore the Block';
+        }
+    }
 
     return (
         <>
@@ -41,12 +50,27 @@ export default function Layout() {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar sx={{ bgcolor: 'text.secondary' }}>Minima Boilerplate</Toolbar>
+                <Toolbar sx={{ bgcolor: 'text.secondary' }}>Block</Toolbar>
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography>{getPageName(Routes, location)}</Typography>
+                    {isOnBlockDetailPage(location.pathname) ? (
+                        <IconButton sx={{ pl: 0 }} color="inherit" onClick={onBackArrowClicked}>
+                            <ArrowBackIcon />
+                        </IconButton>
+                    ) : (
+                        <IconButton
+                            sx={{
+                                display: { xs: 'block', sm: 'none' },
+                                pl: 0,
+                            }}
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={handleDrawerToggle}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    )}
+
+                    <Typography>{getPageName()}</Typography>
                 </Toolbar>
             </AppBar>
 
