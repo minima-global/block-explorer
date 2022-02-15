@@ -3,10 +3,10 @@ import { DataGrid, GridColDef, GridRowParams, GridCallbackDetails, GridRowModel 
 import { Box, Pagination } from '@mui/material';
 import { MuiEvent } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
 import { TextField, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { SearchOutlined } from '@mui/icons-material';
+import useRecentBlocks from './../../minima/useRecentBlocks';
 
 const recentBlockColumns: GridColDef[] = [
     { field: 'block', headerName: 'Block', flex: 100 },
@@ -25,7 +25,7 @@ interface RowsState {
 const TOTAL_ROWS = 1000;
 
 const Block = () => {
-    const blocksContextData = useRecentBlocksContext();
+    const recentBlocks = useRecentBlocks();
     const routerNavigate = useNavigate();
     const [rowsState, setRowsState] = useState<RowsState>({
         page: 0,
@@ -35,9 +35,9 @@ const Block = () => {
     });
     const [searchText, setSearchText] = useState('');
 
-    const newTable = blocksContextData.blockTablePage;
-    const setVisiblePage = blocksContextData.setVisiblePage;
-    const setSearchString = blocksContextData.setSearchString;
+    const newTable = recentBlocks.blockTablePage;
+    const setVisiblePage = recentBlocks.setVisiblePage;
+    const setSearchString = recentBlocks.setSearchString;
 
     console.log('Block component rerender ', Date.now());
 
@@ -140,7 +140,7 @@ const Block = () => {
 
             <Box sx={{ height: 500, width: '100%', mt: 2 }}>
                 <DataGrid
-                    rows={blocksContextData.recentBlocks}
+                    rows={recentBlocks.recentBlocks}
                     columns={recentBlockColumns}
                     getRowId={(row) => row.txpowid}
                     onRowClick={onGridRowClicked}

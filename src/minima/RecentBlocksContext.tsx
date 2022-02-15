@@ -1,17 +1,11 @@
 // https://kentcdodds.com/blog/how-to-use-react-context-effectively
 
 import { createContext, useContext, ReactNode } from 'react';
-import useRecentBlocks from './useRecentBlocks';
-import { RecentBlock } from './useRecentBlocks';
 import { useState } from 'react';
 
 interface IRecentBlocksContext {
-    recentBlocks: RecentBlock[];
-    blockTablePage: RecentBlock[];
-    setVisiblePage: (topBlock: number) => void;
     visibleBlockNumber: number;
     setVisibleBlockNumber: (blockNumber: number) => void;
-    setSearchString: (searchString: string) => void;
 }
 
 const RecentBlocksContext = createContext<IRecentBlocksContext | undefined>(undefined);
@@ -21,20 +15,11 @@ interface IProps {
 }
 
 function RecentBlocksProvider({ children }: IProps) {
-    const blocks = useRecentBlocks();
-    const recentBlocks = blocks.recentBlocks;
-    const blockTablePage = blocks.blockTablePage;
-    const setVisiblePage = blocks.setVisiblePage;
-    const setSearchString = blocks.setSearchString;
     const [visibleBlockNumber, setVisibleBlockNumber] = useState(0);
 
     const value = {
-        recentBlocks,
-        blockTablePage,
-        setVisiblePage,
         visibleBlockNumber,
         setVisibleBlockNumber,
-        setSearchString,
     };
     return <RecentBlocksContext.Provider value={value}>{children}</RecentBlocksContext.Provider>;
 }
