@@ -25,9 +25,6 @@ const Block = () => {
     const setRowsState = recentBlocks.setRowsState;
     const pageSize = recentBlocks.pageSize;
 
-    console.log('Block component rerender ', Date.now());
-    console.log('rowsState', rowsState);
-
     const onGridRowClicked = (
         params: GridRowParams,
         event: MuiEvent<React.MouseEvent>,
@@ -111,8 +108,6 @@ const Block = () => {
                     components={{
                         Pagination: CustomPagination,
                     }}
-                    // onPageChange={(page) => setRowsState((prev) => ({ ...prev, page }))}
-                    // onPageSizeChange={(pageSize) => setRowsState((prev) => ({ ...prev, pageSize }))}
                 />
             </Box>
         </>

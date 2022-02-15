@@ -57,7 +57,6 @@ const useRecentBlocks = () => {
     const getRecentBlocks: (b: number[]) => Promise<RecentBlock[]> = useCallback(async (blockNumbers: number[]) => {
         const txpowPromises = blockNumbers.map((blockNumber) => getTxpowByBlockNumber(blockNumber));
         return Promise.all(txpowPromises).then((txpows) => {
-            console.log('got txpows for blocks ', txpows);
             const recentBlocks: RecentBlock[] = txpows.map((txpow: any) => {
                 return {
                     block: parseInt(txpow.header.block),
@@ -85,7 +84,6 @@ const useRecentBlocks = () => {
                 blockNumbers.add(parseInt(txpow.header.block));
             });
             const blockNumbersArray: number[] = Array.from(blockNumbers);
-            console.log('blockNumbersArray for address', blockNumbersArray);
             return getRecentBlocks(blockNumbersArray);
         },
         [getRecentBlocks, removeDuplicates]
@@ -116,10 +114,7 @@ const useRecentBlocks = () => {
     useEffect(() => {
         if (searchString === '') {
             let pageBlockNumbers: number[] = [];
-            console.log('new block get the latest 10 blocks from ' + latestBlockNumber);
-
             const topBlock = latestBlockNumber - rowsState.page * PAGE_SIZE;
-
             for (let i = topBlock; i > topBlock - PAGE_SIZE; i--) {
                 pageBlockNumbers.push(i);
             }
@@ -127,10 +122,6 @@ const useRecentBlocks = () => {
             setRowsState((prev) => ({ ...prev, loading: true }));
             getRecentBlocks(pageBlockNumbers).then(
                 (recentBlocks) => {
-                    console.log(
-                        'got recentBlocks for blocks ' + topBlock + ' to ' + (topBlock - PAGE_SIZE),
-                        recentBlocks
-                    );
                     setRowsState((prev) => ({
                         ...prev,
                         loading: false,
@@ -144,10 +135,8 @@ const useRecentBlocks = () => {
                 }
             );
         } else {
-            console.log('searching for ' + searchString);
             let isnum = /^\d+$/.test(searchString);
             if (isnum) {
-                console.log('search for txpow by block number ' + searchString);
                 setRowsState((prev) => ({ ...prev, loading: true }));
                 getRecentBlocks([parseInt(searchString)]).then(
                     (recentBlocks: any) => {
@@ -160,12 +149,10 @@ const useRecentBlocks = () => {
                     }
                 );
             } else {
-                console.log('NaN, checking for address');
                 if (isAddress(searchString)) {
                     setRowsState((prev) => ({ ...prev, loading: true }));
                     getRecentBlocksByAddress(searchString).then(
                         (recentBlocks: any) => {
-                            console.log('got recent blocks for ' + searchString, recentBlocks);
                             setSearchResultBlocks(recentBlocks);
                             setRowsState((prev) => ({ ...prev, loading: false }));
                         },
@@ -175,7 +162,7 @@ const useRecentBlocks = () => {
                         }
                     );
                 } else {
-                    console.log('not an address');
+                    console.error('not an address');
                 }
             }
         }
