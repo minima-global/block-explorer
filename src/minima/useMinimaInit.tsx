@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import Minima from './minimanew.js';
 
-Minima.setRpcHost();
 
 const useMinimaInit = () => {
     const [connected, setConnected] = useState(false);
-
+    
+    Minima.useMinidappSystem();
+    
     useEffect(() => {
         Minima.init((msg: any) => {
             if (msg.event == 'connected') {

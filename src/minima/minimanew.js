@@ -28,6 +28,10 @@ var Minima = {
         }
     },
 
+    useMinidappSystem: function () {
+        this.rpchost = `./_minima/`;
+    },
+
     /**
      * Minima Startup - with the callback function used for all Minima messages
      */
