@@ -101,7 +101,7 @@ const Block = () => {
                         fullWidth
                         InputProps={{
                             endAdornment: (
-                                <IconButton type="submit">
+                                <IconButton onClick={onSearchClicked}>
                                     <SearchOutlined />
                                 </IconButton>
                             ),
@@ -123,7 +123,7 @@ const Block = () => {
             >
                 <DataGrid
                     columns={recentBlockColumns}
-                    getRowId={(row) => row.block}
+                    getRowId={(row) => row.txpowid}
                     onRowClick={onGridRowClicked}
                     pagination
                     rowCount={TOTAL_ROWS}
@@ -142,7 +142,7 @@ const Block = () => {
                 <DataGrid
                     rows={blocksContextData.recentBlocks}
                     columns={recentBlockColumns}
-                    getRowId={(row) => row.block}
+                    getRowId={(row) => row.txpowid}
                     onRowClick={onGridRowClicked}
                     pageSize={10}
                     rowsPerPageOptions={[10]}

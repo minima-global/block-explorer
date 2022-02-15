@@ -10,6 +10,7 @@ export interface RecentBlock {
     transactions: number;
     relayed: Date;
     parent: string;
+    txpowid: string;
 }
 
 const HISTORICAL_BLOCK_COUNT = 10;
@@ -37,6 +38,16 @@ const useRecentBlocks = () => {
             return address.startsWith('0x') && address.length === 66;
         };
 
+        const removeDuplicates = (txpows: any[]) => {
+            let unique: any = {};
+            txpows.forEach((txpow) => {
+                const txpowid: string = txpow.txpowid;
+                unique[txpowid] = txpow;
+            });
+            const uniqueArray = Object.values(unique);
+            return uniqueArray;
+        };
+
         if (searchString === '') {
             let pageTxpowPromises: Promise<any>[] = [];
             console.log('new block get the latest 10 blocks from ' + latestBlockNumber);
@@ -56,6 +67,7 @@ const useRecentBlocks = () => {
                         transactions: txpow.body.txnlist.length,
                         relayed: new Date(txpow.header.date),
                         parent: txpow.header.superparents[0].parent,
+                        txpowid: txpow.txpowid,
                     };
                 });
                 setBlockTablePage(tableTxpows);
@@ -72,14 +84,16 @@ const useRecentBlocks = () => {
                 console.log('NaN, checking for address');
                 if (isAddress(searchString)) {
                     getTxpowByAddress(searchString).then((txpows: any) => {
-                        console.log('got txpow for ' + searchString, txpows);
-                        const searchBlocks: RecentBlock[] = txpows.map((txpow: any) => {
+                        const uniqueTxpows = removeDuplicates(txpows);
+                        console.log('got unique txpows for ' + searchString, uniqueTxpows);
+                        const searchBlocks: RecentBlock[] = uniqueTxpows.map((txpow: any) => {
                             return {
                                 block: parseInt(txpow.header.block),
                                 hash: txpow.txpowid,
                                 transactions: txpow.body.txnlist.length,
                                 relayed: new Date(txpow.header.date),
                                 parent: txpow.header.superparents[0].parent,
+                                txpowid: txpow.txpowid,
                             };
                         });
                         setBlockTablePage(searchBlocks);
@@ -137,6 +151,7 @@ const useRecentBlocks = () => {
                         transactions: txpow.body.txnlist.length,
                         relayed: new Date(txpow.header.date),
                         parent: txpow.header.superparents[0].parent,
+                        txpowid: txpow.txpowid,
                     };
                 });
                 setRecentBlocks((oldArray) => historicalRecentBlocks.concat(oldArray));
@@ -162,6 +177,7 @@ const useRecentBlocks = () => {
                         transactions: txpow.body.txnlist.length,
                         relayed: new Date(txpow.header.date),
                         parent: txpow.header.superparents[0].parent,
+                        txpowid: txpow.txpowid,
                     };
                     setRecentBlocks((oldArray) => [...oldArray, newRecentBlock]);
                 },
