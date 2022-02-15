@@ -1,8 +1,8 @@
 import useStatus from './useStatus';
 import { useState, useEffect } from 'react';
 import { getTxpow, getTxpowByBlockNumber, getTxpowByAddress } from './rpc-commands';
-import { ContactsOutlined } from '@mui/icons-material';
 import { callStatus } from './rpc-commands';
+import { GridRowModel } from '@mui/x-data-grid';
 
 export interface RecentBlock {
     block: number;
@@ -11,6 +11,13 @@ export interface RecentBlock {
     relayed: Date;
     parent: string;
     txpowid: string;
+}
+
+interface RowsState {
+    page: number;
+    pageSize: number;
+    rows: GridRowModel[];
+    loading: boolean;
 }
 
 const HISTORICAL_BLOCK_COUNT = 10;
@@ -23,10 +30,24 @@ const useRecentBlocks = () => {
     const [visiblePage, setVisiblePage] = useState<number>(0);
     const [searchString, setSearchString] = useState<string>('');
     const status = useStatus();
+    const [rowsState, setRowsState] = useState<RowsState>({
+        page: 0,
+        pageSize: 10,
+        rows: [],
+        loading: false,
+    });
 
     // table will be in 2 modes.
     // 1) An updating mode when new blocks will be visible straight away
     // 2) A search mode when search resuts are visible but the table doesnt update
+
+    useEffect(() => {
+        setRowsState((prev) => ({ ...prev, loading: false, rows: blockTablePage }));
+    }, [blockTablePage]);
+
+    useEffect(() => {
+        setVisiblePage(rowsState.page);
+    }, [rowsState.page]);
 
     useEffect(() => {
         const blockNum: number = status.chain.block;
@@ -188,7 +209,7 @@ const useRecentBlocks = () => {
         }
     }, [status]);
 
-    return { recentBlocks, blockTablePage, setVisiblePage, setSearchString };
+    return { recentBlocks, blockTablePage, setVisiblePage, setSearchString, rowsState, setRowsState };
 };
 
 export default useRecentBlocks;

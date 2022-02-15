@@ -15,39 +15,18 @@ const recentBlockColumns: GridColDef[] = [
     { field: 'relayed', headerName: 'Relayed', flex: 100 },
 ];
 
-interface RowsState {
-    page: number;
-    pageSize: number;
-    rows: GridRowModel[];
-    loading: boolean;
-}
-
 const TOTAL_ROWS = 1000;
 
 const Block = () => {
-    const recentBlocks = useRecentBlocks();
     const routerNavigate = useNavigate();
-    const [rowsState, setRowsState] = useState<RowsState>({
-        page: 0,
-        pageSize: 10,
-        rows: [],
-        loading: false,
-    });
     const [searchText, setSearchText] = useState('');
 
-    const newTable = recentBlocks.blockTablePage;
-    const setVisiblePage = recentBlocks.setVisiblePage;
+    const recentBlocks = useRecentBlocks();
     const setSearchString = recentBlocks.setSearchString;
+    const rowsState = recentBlocks.rowsState;
+    const setRowsState = recentBlocks.setRowsState;
 
     console.log('Block component rerender ', Date.now());
-
-    useEffect(() => {
-        setRowsState((prev) => ({ ...prev, loading: false, rows: newTable }));
-    }, [newTable]);
-
-    useEffect(() => {
-        setVisiblePage(rowsState.page);
-    }, [rowsState.page]);
 
     const onGridRowClicked = (
         params: GridRowParams,
