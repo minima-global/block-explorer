@@ -73,7 +73,7 @@ export const getTxpowByBlockNumber = (blockNumber: number) => {
     });
 };
 
-export const getTxpowByAddress = (address: string) => {
+export const getTxpowByAddress: (s: string) => Promise<any[]> = (address: string) => {
     const command = `txpow address:${address}`;
     return new Promise((resolve, reject) => {
         Minima.cmd(command, (data: any) => {

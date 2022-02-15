@@ -15,8 +15,6 @@ const recentBlockColumns: GridColDef[] = [
     { field: 'relayed', headerName: 'Relayed', flex: 100 },
 ];
 
-const TOTAL_ROWS = 1000;
-
 const Block = () => {
     const routerNavigate = useNavigate();
     const [searchText, setSearchText] = useState('');
@@ -25,8 +23,10 @@ const Block = () => {
     const setSearchString = recentBlocks.setSearchString;
     const rowsState = recentBlocks.rowsState;
     const setRowsState = recentBlocks.setRowsState;
+    const pageSize = recentBlocks.pageSize;
 
     console.log('Block component rerender ', Date.now());
+    console.log('rowsState', rowsState);
 
     const onGridRowClicked = (
         params: GridRowParams,
@@ -46,10 +46,11 @@ const Block = () => {
     };
 
     function CustomPagination() {
+        const pageCount = Math.max(1, Math.ceil(rowsState.rowCount / pageSize));
         return (
             <Pagination
                 color="primary"
-                count={100}
+                count={pageCount}
                 page={rowsState.page + 1}
                 onChange={(event, value) => {
                     setRowsState((prev) => ({ ...prev, page: value - 1 }));
@@ -104,8 +105,6 @@ const Block = () => {
                     columns={recentBlockColumns}
                     getRowId={(row) => row.txpowid}
                     onRowClick={onGridRowClicked}
-                    pagination
-                    rowCount={TOTAL_ROWS}
                     {...rowsState}
                     paginationMode="server"
                     density="compact"

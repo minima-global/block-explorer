@@ -4,7 +4,7 @@ import { getTxpow, getTxpowByBlockNumber, getTxpowByAddress } from './rpc-comman
 import { callStatus } from './rpc-commands';
 import { GridRowModel } from '@mui/x-data-grid';
 
-export interface RecentBlock {
+interface RecentBlock {
     block: number;
     hash: string;
     transactions: number;
@@ -15,24 +15,27 @@ export interface RecentBlock {
 
 interface RowsState {
     page: number;
-    pageSize: number;
     rows: GridRowModel[];
+    rowCount: number;
     loading: boolean;
 }
+const PAGE_SIZE = 10;
 
-const HISTORICAL_BLOCK_COUNT = 10;
+// minima stores 1000 blocks
+const MINIMA_TOTAL_ROWS = 1000;
 
 const useRecentBlocks = () => {
     const status = useStatus();
     const [recentBlocks, setRecentBlocks] = useState<RecentBlock[]>([]);
     const [latestBlockNumber, setLatestBlockNumber] = useState<number>(0);
     const [searchString, setSearchString] = useState<string>('');
+    const [searchResultBlocks, setSearchResultBlocks] = useState<RecentBlock[]>([]);
 
     // visible table rows and pagination state
     const [rowsState, setRowsState] = useState<RowsState>({
         page: 0,
-        pageSize: 10,
         rows: [],
+        rowCount: MINIMA_TOTAL_ROWS,
         loading: false,
     });
 
@@ -46,10 +49,31 @@ const useRecentBlocks = () => {
     }, [status]);
 
     useEffect(() => {
+        setRowsState((prev) => ({ ...prev, page: 0 }));
+    }, [searchString]);
+
+    useEffect(() => {
+        if (searchString === '') {
+            // do nothing, we will handle this in another useEffect
+        } else {
+            // display the correct slice of the searchResultsBlocks into the rowsState.rows
+            // page 0 = [0,9]
+            // page 1 = [10,19]
+            // page 2 = [20,29]
+            const startIndex = rowsState.page * PAGE_SIZE;
+            const endIndex = (rowsState.page + 1) * PAGE_SIZE;
+            const displayRows = searchResultBlocks.slice(startIndex, endIndex);
+            setRowsState((prev) => ({ ...prev, rows: displayRows, rowCount: searchResultBlocks.length }));
+        }
+    }, [searchResultBlocks, rowsState.page, searchString]);
+
+    useEffect(() => {
         const isAddress = (address: string) => {
             return address.startsWith('0x') && address.length === 66;
         };
 
+        // takes an array of txpow objects
+        // returns an array of txpow objects with none having the same txpowid
         const removeDuplicates = (txpows: any[]) => {
             let unique: any = {};
             txpows.forEach((txpow) => {
@@ -60,19 +84,13 @@ const useRecentBlocks = () => {
             return uniqueArray;
         };
 
-        if (searchString === '') {
-            let pageTxpowPromises: Promise<any>[] = [];
-            console.log('new block get the latest 10 blocks from ' + latestBlockNumber);
-
-            const topBlock = latestBlockNumber - rowsState.page * HISTORICAL_BLOCK_COUNT;
-
-            for (let i = topBlock; i > topBlock - HISTORICAL_BLOCK_COUNT; i--) {
-                pageTxpowPromises.push(getTxpowByBlockNumber(i));
-            }
-
-            Promise.all(pageTxpowPromises).then((txpows) => {
-                console.log('got txpows for blocks ' + topBlock + ' to ' + (topBlock - HISTORICAL_BLOCK_COUNT), txpows);
-                const tableTxpows = txpows.map((txpow) => {
+        // takes an array of block numbers
+        // returns (promise of) an array of RecentBlock objects (each is a block, so no transactions)
+        const getRecentBlocks: (b: number[]) => Promise<RecentBlock[]> = async (blockNumbers: number[]) => {
+            const txpowPromises = blockNumbers.map((blockNumber) => getTxpowByBlockNumber(blockNumber));
+            return Promise.all(txpowPromises).then((txpows) => {
+                console.log('got txpows for blocks ', txpows);
+                const recentBlocks: RecentBlock[] = txpows.map((txpow: any) => {
                     return {
                         block: parseInt(txpow.header.block),
                         hash: txpow.txpowid,
@@ -82,8 +100,55 @@ const useRecentBlocks = () => {
                         txpowid: txpow.txpowid,
                     };
                 });
-                setRowsState((prev) => ({ ...prev, loading: false, rows: tableTxpows }));
-            }, console.error);
+                return recentBlocks;
+            });
+        };
+
+        // takes a minima address
+        // gets all the blocks and transactions associated with that address
+        // returns (promise of) an array of RecentBlock objects (each is a block, so no transactions)
+        const getRecentBlocksByAddress: (address: string) => Promise<RecentBlock[]> = async (address: string) => {
+            const txpows: any[] = await getTxpowByAddress(address);
+            const uniqueTxpows = removeDuplicates(txpows); // some are blocks some are transactions
+            // get all the unique block numbers
+            let blockNumbers: Set<number> = new Set();
+            uniqueTxpows.forEach((txpow: any) => {
+                blockNumbers.add(parseInt(txpow.header.block));
+            });
+            const blockNumbersArray: number[] = Array.from(blockNumbers);
+            console.log('blockNumbersArray for address', blockNumbersArray);
+            return getRecentBlocks(blockNumbersArray);
+        };
+
+        if (searchString === '') {
+            let pageBlockNumbers: number[] = [];
+            console.log('new block get the latest 10 blocks from ' + latestBlockNumber);
+
+            const topBlock = latestBlockNumber - rowsState.page * PAGE_SIZE;
+
+            for (let i = topBlock; i > topBlock - PAGE_SIZE; i--) {
+                pageBlockNumbers.push(i);
+            }
+
+            setRowsState((prev) => ({ ...prev, loading: true }));
+            getRecentBlocks(pageBlockNumbers).then(
+                (recentBlocks) => {
+                    console.log(
+                        'got recentBlocks for blocks ' + topBlock + ' to ' + (topBlock - PAGE_SIZE),
+                        recentBlocks
+                    );
+                    setRowsState((prev) => ({
+                        ...prev,
+                        loading: false,
+                        rows: recentBlocks,
+                        rowCount: MINIMA_TOTAL_ROWS, // use artificial number of blocks
+                    }));
+                },
+                (err: any) => {
+                    setRowsState((prev) => ({ ...prev, loading: false }));
+                    console.error(err);
+                }
+            );
         } else {
             console.log('searching for ' + searchString);
             let isnum = /^\d+$/.test(searchString);
@@ -95,21 +160,24 @@ const useRecentBlocks = () => {
             } else {
                 console.log('NaN, checking for address');
                 if (isAddress(searchString)) {
-                    getTxpowByAddress(searchString).then((txpows: any) => {
-                        const uniqueTxpows = removeDuplicates(txpows);
-                        console.log('got unique txpows for ' + searchString, uniqueTxpows);
-                        const searchBlocks: RecentBlock[] = uniqueTxpows.map((txpow: any) => {
-                            return {
-                                block: parseInt(txpow.header.block),
-                                hash: txpow.txpowid,
-                                transactions: txpow.body.txnlist.length,
-                                relayed: new Date(txpow.header.date),
-                                parent: txpow.header.superparents[0].parent,
-                                txpowid: txpow.txpowid,
-                            };
-                        });
-                        setRowsState((prev) => ({ ...prev, loading: false, rows: searchBlocks }));
-                    }, console.error);
+                    setRowsState((prev) => ({ ...prev, loading: true }));
+                    getRecentBlocksByAddress(searchString).then(
+                        (recentBlocks: any) => {
+                            console.log('got recent blocks for ' + searchString, recentBlocks);
+                            setSearchResultBlocks(recentBlocks);
+                            setRowsState((prev) => ({ ...prev, loading: false }));
+                            // setRowsState((prev) => ({
+                            //     ...prev,
+                            //     loading: false,
+                            //     rows: recentBlocks,
+                            //     rowCount: recentBlocks.length, // use actual number of blocks
+                            // }));
+                        },
+                        (err: any) => {
+                            setRowsState((prev) => ({ ...prev, loading: false }));
+                            console.error(err);
+                        }
+                    );
                 } else {
                     console.log('not an address');
                 }
@@ -149,7 +217,7 @@ const useRecentBlocks = () => {
                 funcs.reduce(applyAsync, Promise.resolve(x));
 
         // create all the promises we are going to chain to get the historical txpowids
-        const historicalTxpowIdPromises = new Array(HISTORICAL_BLOCK_COUNT).fill(getParentId);
+        const historicalTxpowIdPromises = new Array(PAGE_SIZE).fill(getParentId);
         const transformData = composeAsync(...historicalTxpowIdPromises);
 
         // get the first txpowid and fire off the chain of promises
@@ -200,7 +268,7 @@ const useRecentBlocks = () => {
         }
     }, [status]);
 
-    return { recentBlocks, setSearchString, rowsState, setRowsState };
+    return { recentBlocks, setSearchString, rowsState, setRowsState, pageSize: PAGE_SIZE };
 };
 
 export default useRecentBlocks;
