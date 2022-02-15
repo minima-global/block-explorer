@@ -53,7 +53,7 @@ const Block = () => {
                 count={pageCount}
                 page={rowsState.page + 1}
                 onChange={(event, value) => {
-                    setRowsState((prev) => ({ ...prev, page: value - 1 }));
+                    setRowsState((prev: any) => ({ ...prev, page: value - 1 }));
                 }}
             />
         );
@@ -113,23 +113,6 @@ const Block = () => {
                     }}
                     // onPageChange={(page) => setRowsState((prev) => ({ ...prev, page }))}
                     // onPageSizeChange={(pageSize) => setRowsState((prev) => ({ ...prev, pageSize }))}
-                />
-            </Box>
-
-            <Box sx={{ height: 500, width: '100%', mt: 2 }}>
-                <DataGrid
-                    rows={recentBlocks.recentBlocks}
-                    columns={recentBlockColumns}
-                    getRowId={(row) => row.txpowid}
-                    onRowClick={onGridRowClicked}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    density="compact"
-                    initialState={{
-                        sorting: {
-                            sortModel: [{ field: 'block', sort: 'desc' }],
-                        },
-                    }}
                 />
             </Box>
         </>
