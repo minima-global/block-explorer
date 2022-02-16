@@ -4,7 +4,7 @@ import { getTxpow } from './../../minima/rpc-commands';
 import { Box, Tab, Tabs } from '@mui/material';
 import DisplayItem from './DisplayItem';
 import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
-import { ReactNode } from 'react';
+import BlockTabs from './BlockTabs';
 
 const BlockDetail = () => {
     const blocksContextData = useRecentBlocksContext();
@@ -28,17 +28,13 @@ const BlockDetail = () => {
         }
     }, [txpowid, blocksContextData]);
 
-    const onTabSelected = (event: SyntheticEvent, newValue: number) => {
-        setTabNumber(newValue);
-    };
-
     const DetailContainer = ({ children }: any) => {
         return (
             <Box
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
                     boxShadow: 1,
-                    borderRadius: 2,
+                    borderRadius: 1.5,
                     p: 2,
                     mt: 2,
                     mb: 2,
@@ -135,13 +131,7 @@ const BlockDetail = () => {
     return (
         <>
             <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={tabNumber} onChange={onTabSelected} aria-label="basic tabs example">
-                        <Tab label="Details" />
-                        <Tab label="Inputs" />
-                        <Tab label="Outputs" />
-                    </Tabs>
-                </Box>
+                <BlockTabs tabNumber={tabNumber} setTabNumber={setTabNumber}></BlockTabs>
                 {txpow ? displayTab() : null}
             </Box>
         </>
