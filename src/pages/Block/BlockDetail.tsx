@@ -12,7 +12,7 @@ const BlockDetail = () => {
     const [txpow, setTxpow] = useState<any>(null);
     const routerParams = useParams();
     const txpowid = routerParams.txpowid;
-    console.log('txpow', txpow);
+    // console.log('txpow', txpow);
 
     useEffect(() => {
         if (routerParams.txpowid) {
@@ -49,7 +49,7 @@ const BlockDetail = () => {
 
     const Detail = ({ myTxpow }: any) => {
         const allTransactions = myTxpow.body.txnlist.concat(myTxpow.body.burntxn);
-        console.log('allTransactions', allTransactions);
+        // console.log('allTransactions', allTransactions);
         return (
             <>
                 <DetailContainer>

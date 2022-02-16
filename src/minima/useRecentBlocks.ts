@@ -12,7 +12,7 @@ interface RecentBlock {
     txpowid: string;
 }
 
-interface RowsState {
+export interface RowsState {
     page: number;
     rows: GridRowModel[];
     rowCount: number;

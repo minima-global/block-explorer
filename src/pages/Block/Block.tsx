@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, ChangeEventHandler } from 'react';
+import { useState, ChangeEvent } from 'react';
 import {
     DataGrid,
     GridColDef,
@@ -7,15 +7,15 @@ import {
     GridOverlay,
     GridRenderCellParams,
 } from '@mui/x-data-grid';
-import { Box, Pagination, LinearProgress, PaginationItem, Button } from '@mui/material';
+import { Box, LinearProgress } from '@mui/material';
 import { MuiEvent } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { SearchOutlined, Clear } from '@mui/icons-material';
 import useRecentBlocks from './../../minima/useRecentBlocks';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import * as React from 'react';
+import BlockPagination from './BlockPagination';
 
 const printDate = (myDate: Date) => {
     const dateParts = myDate.toDateString().split(' ');
@@ -81,24 +81,9 @@ const Block = () => {
         );
     }
 
-    function CustomPagination() {
-        const pageCount = Math.max(1, Math.ceil(rowsState.rowCount / pageSize));
-        return (
-            <Pagination
-                color="primary"
-                showFirstButton
-                showLastButton
-                count={pageCount}
-                page={rowsState.page + 1}
-                onChange={(event, value) => {
-                    setRowsState((prev: any) => ({ ...prev, page: value - 1 }));
-                }}
-                renderItem={(item) => (
-                    <PaginationItem components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }} {...item} />
-                )}
-            />
-        );
-    }
+    const CustomPagination = () => (
+        <BlockPagination rowsState={rowsState} pageSize={pageSize} setRowsState={setRowsState} />
+    );
 
     return (
         <>
@@ -143,7 +128,7 @@ const Block = () => {
                     borderRadius: 1,
                     mt: 2,
                     mb: 2,
-                    height: 500,
+                    height: 600,
                     width: '100%',
                     overflow: 'hidden',
                 }}
