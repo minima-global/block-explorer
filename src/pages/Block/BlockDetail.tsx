@@ -12,6 +12,7 @@ const BlockDetail = () => {
     const [txpow, setTxpow] = useState<any>(null);
     const routerParams = useParams();
     const txpowid = routerParams.txpowid;
+    console.log('txpow', txpow);
 
     useEffect(() => {
         if (routerParams.txpowid) {
@@ -47,10 +48,13 @@ const BlockDetail = () => {
     };
 
     const Detail = ({ myTxpow }: any) => {
+        const allTransactions = myTxpow.body.txnlist.concat(myTxpow.body.burntxn);
+        console.log('allTransactions', allTransactions);
         return (
             <>
                 <DetailContainer>
                     <DisplayItem heading="TxPoW ID" text={myTxpow.txpowid} />
+                    <DisplayItem heading="Block" text={myTxpow.header.block} />
                     <DisplayItem heading="Timestamp" text={myTxpow.header.date} />
                     <DisplayItem heading="Size" text={myTxpow.size} />
                     <DisplayItem heading="Is a block?" text={myTxpow.isblock ? 'Yes' : 'No'} />
@@ -99,9 +103,7 @@ const BlockDetail = () => {
                                 <DisplayItem heading="Index" text={i.toString()} />
                                 <DisplayItem heading="Coin ID" text={input.coinid} />
                                 <DisplayItem heading="Address" text={input.address} />
-                                <DisplayItem heading="Mx Address" text="???" />
                                 <DisplayItem heading="Token Id" text={input.tokenid} />
-                                <DisplayItem heading="Value" text="???" />
                                 <DisplayItem heading="Amount" text={input.amount} />
                                 <DisplayItem heading="Token Amount" text={input.tokenamount} />
                             </DetailContainer>
