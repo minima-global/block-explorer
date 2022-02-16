@@ -1,15 +1,7 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
-import { useParams } from 'react-router-dom';
-import { getTxpow } from './../../minima/rpc-commands';
-import { Box, Tab, Tabs } from '@mui/material';
-import DisplayItem from './DisplayItem';
-import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
-import { ReactNode } from 'react';
+import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
-import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
-import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 
 interface IProps {
