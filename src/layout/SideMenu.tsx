@@ -39,8 +39,8 @@ const SideMenu = ({ handleDrawerToggle }: IProps) => {
 
     return (
         <>
-            <Toolbar />
-            <Toolbar />
+            <Toolbar variant="dense" />
+            <Toolbar variant="dense" />
             <Divider />
 
             <Grid container direction="column" justifyContent="space-between" sx={{ height: '100%' }}>
