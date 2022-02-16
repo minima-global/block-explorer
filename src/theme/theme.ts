@@ -125,6 +125,9 @@ theme = createTheme(theme, {
                 root: {
                     backgroundColor: 'rgba(255, 255, 255, 0.5)',
                 },
+                overlay: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                },
             },
         },
     },

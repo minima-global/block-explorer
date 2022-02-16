@@ -1,6 +1,6 @@
 import { useEffect, useState, ChangeEvent, ChangeEventHandler } from 'react';
-import { DataGrid, GridColDef, GridRowParams, GridCallbackDetails, GridRowModel } from '@mui/x-data-grid';
-import { Box, Pagination } from '@mui/material';
+import { DataGrid, GridColDef, GridRowParams, GridCallbackDetails, GridOverlay } from '@mui/x-data-grid';
+import { Box, Pagination, LinearProgress } from '@mui/material';
 import { MuiEvent } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Typography } from '@mui/material';
@@ -42,6 +42,16 @@ const Block = () => {
         setSearchString(searchText);
     };
 
+    function CustomLoadingOverlay() {
+        return (
+            <GridOverlay>
+                <div style={{ position: 'absolute', top: 0, width: '100%' }}>
+                    <LinearProgress />
+                </div>
+            </GridOverlay>
+        );
+    }
+
     function CustomPagination() {
         const pageCount = Math.max(1, Math.ceil(rowsState.rowCount / pageSize));
         return (
@@ -55,6 +65,10 @@ const Block = () => {
             />
         );
     }
+
+    // .css-278138-MuiDataGrid-overlay {
+    //     background-color: rgba(255, 255, 255, 0.5);
+    // }
 
     return (
         <>
@@ -107,6 +121,7 @@ const Block = () => {
                     density="compact"
                     components={{
                         Pagination: CustomPagination,
+                        LoadingOverlay: CustomLoadingOverlay,
                     }}
                 />
             </Box>

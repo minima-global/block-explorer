@@ -113,6 +113,11 @@ const useRecentBlocks = () => {
     /////////////////// Network requests all happen in this effect ///////////////////
     useEffect(() => {
         if (searchString === '') {
+            // do nothing on initial state
+            if (latestBlockNumber === 0) {
+                return;
+            }
+
             let pageBlockNumbers: number[] = [];
             const topBlock = latestBlockNumber - rowsState.page * PAGE_SIZE;
             for (let i = topBlock; i > topBlock - PAGE_SIZE; i--) {
