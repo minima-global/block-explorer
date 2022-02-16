@@ -85,7 +85,7 @@ export default function Layout() {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Container maxWidth="sm">{myRoutes}</Container>
+                <Container maxWidth="md">{myRoutes}</Container>
             </Box>
 
             <Box

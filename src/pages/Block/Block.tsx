@@ -145,6 +145,7 @@ const Block = () => {
                     mb: 2,
                     height: 500,
                     width: '100%',
+                    overflow: 'hidden',
                 }}
             >
                 <DataGrid

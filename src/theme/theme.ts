@@ -123,11 +123,14 @@ theme = createTheme(theme, {
         MuiDataGrid: {
             styleOverrides: {
                 root: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
                     cursor: 'pointer',
                 },
                 overlay: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                },
+                columnHeader: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
                 },
             },
         },
