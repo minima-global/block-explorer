@@ -1,18 +1,42 @@
 import { useEffect, useState, ChangeEvent, ChangeEventHandler } from 'react';
-import { DataGrid, GridColDef, GridRowParams, GridCallbackDetails, GridOverlay } from '@mui/x-data-grid';
-import { Box, Pagination, LinearProgress } from '@mui/material';
+import {
+    DataGrid,
+    GridColDef,
+    GridRowParams,
+    GridCallbackDetails,
+    GridOverlay,
+    GridRenderCellParams,
+} from '@mui/x-data-grid';
+import { Box, Pagination, LinearProgress, PaginationItem, Button } from '@mui/material';
 import { MuiEvent } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
-import { SearchOutlined } from '@mui/icons-material';
+import { SearchOutlined, Clear } from '@mui/icons-material';
 import useRecentBlocks from './../../minima/useRecentBlocks';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
+const printDate = (myDate: Date) => {
+    const dateParts = myDate.toDateString().split(' ');
+    const timeParts = myDate.toTimeString().split(' ');
+    const month = dateParts[1];
+    const day = dateParts[2];
+    const time = timeParts[0];
+
+    return `${time}, ${month} ${day}`;
+};
 
 const recentBlockColumns: GridColDef[] = [
     { field: 'block', headerName: 'Block', flex: 100 },
     { field: 'hash', headerName: 'Hash', flex: 100 },
     { field: 'transactions', headerName: 'TKNS', flex: 100, align: 'center', headerAlign: 'center' },
-    { field: 'relayed', headerName: 'Relayed', flex: 100 },
+    {
+        field: 'relayed',
+        headerName: 'Relayed',
+        flex: 100,
+        renderCell: (params: GridRenderCellParams<Date>) => <>{printDate(params.value)}</>,
+    },
 ];
 
 const Block = () => {
@@ -42,6 +66,11 @@ const Block = () => {
         setSearchString(searchText);
     };
 
+    const onClearSearchClicked = () => {
+        setSearchText(''); // local input field
+        setSearchString(''); // sent to minima
+    };
+
     function CustomLoadingOverlay() {
         return (
             <GridOverlay>
@@ -57,18 +86,19 @@ const Block = () => {
         return (
             <Pagination
                 color="primary"
+                showFirstButton
+                showLastButton
                 count={pageCount}
                 page={rowsState.page + 1}
                 onChange={(event, value) => {
                     setRowsState((prev: any) => ({ ...prev, page: value - 1 }));
                 }}
+                renderItem={(item) => (
+                    <PaginationItem components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }} {...item} />
+                )}
             />
         );
     }
-
-    // .css-278138-MuiDataGrid-overlay {
-    //     background-color: rgba(255, 255, 255, 0.5);
-    // }
 
     return (
         <>
@@ -76,7 +106,7 @@ const Block = () => {
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
                     boxShadow: 1,
-                    borderRadius: 2,
+                    borderRadius: 1.5,
                     p: 2,
                     mt: 4,
                     minWidth: 300,
@@ -91,9 +121,14 @@ const Block = () => {
                         sx={{ mt: 4 }}
                         fullWidth
                         InputProps={{
-                            endAdornment: (
-                                <IconButton onClick={onSearchClicked}>
+                            startAdornment: (
+                                <IconButton onClick={onSearchClicked} type="submit">
                                     <SearchOutlined />
+                                </IconButton>
+                            ),
+                            endAdornment: (
+                                <IconButton onClick={onClearSearchClicked}>
+                                    <Clear />
                                 </IconButton>
                             ),
                         }}

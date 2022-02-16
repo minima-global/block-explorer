@@ -124,6 +124,7 @@ theme = createTheme(theme, {
             styleOverrides: {
                 root: {
                     backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    cursor: 'pointer',
                 },
                 overlay: {
                     backgroundColor: 'rgba(255, 255, 255, 0.5)',
