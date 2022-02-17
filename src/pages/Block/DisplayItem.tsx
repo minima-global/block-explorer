@@ -13,7 +13,7 @@ const DisplayItem = ({ heading, text, link }: Iprops) => {
             sx={{
                 bgcolor: 'rgba(255, 255, 255, 0.5)',
                 boxShadow: 1,
-                borderRadius: 2,
+                borderRadius: 1,
                 p: 2,
                 mt: 1,
                 minWidth: 300,

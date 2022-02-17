@@ -5,6 +5,9 @@ import { createTheme } from '@mui/material/styles';
 
 // A custom theme for this app
 let theme = createTheme({
+    status: {
+        danger: '#e53e3e',
+    },
     palette: {
         primary: {
             main: '#317aff',
@@ -120,7 +123,14 @@ theme = createTheme(theme, {
         MuiDataGrid: {
             styleOverrides: {
                 root: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    cursor: 'pointer',
+                },
+                overlay: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                },
+                columnHeader: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
                 },
             },
         },
@@ -155,5 +165,11 @@ declare module '@mui/material/styles' {
     interface PaletteOptions {
         darkBlack?: PaletteOptions['primary'];
         menu?: PaletteOptions['primary'];
+    }
+
+    interface ThemeOptions {
+        status: {
+            danger: React.CSSProperties['color'];
+        };
     }
 }

@@ -20,7 +20,7 @@ const useBalance = () => {
             callBalance().then(
                 (data: any) => {
                     if (data.status) {
-                        setBalance(data.response.balance);
+                        setBalance(data.response);
                     }
                 },
                 (err) => {

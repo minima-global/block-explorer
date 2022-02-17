@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, Box, Container } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, Box, Container, Grid } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Routes from '../app.routes';
@@ -50,8 +50,12 @@ export default function Layout() {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar sx={{ bgcolor: 'text.secondary' }}>Block</Toolbar>
-                <Toolbar>
+                <Toolbar variant="dense" sx={{ bgcolor: 'text.secondary' }}>
+                    <Grid container justifyContent="center">
+                        <Grid item></Grid>Block
+                    </Grid>
+                </Toolbar>
+                <Toolbar variant="dense">
                     {isOnBlockDetailPage(location.pathname) ? (
                         <IconButton sx={{ pl: 0 }} color="inherit" onClick={onBackArrowClicked}>
                             <ArrowBackIcon />
@@ -81,7 +85,7 @@ export default function Layout() {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Container maxWidth="sm">{myRoutes}</Container>
+                <Container maxWidth="md">{myRoutes}</Container>
             </Box>
 
             <Box

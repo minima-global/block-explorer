@@ -4,7 +4,7 @@ import { getTxpow } from './../../minima/rpc-commands';
 import { Box, Tab, Tabs } from '@mui/material';
 import DisplayItem from './DisplayItem';
 import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
-import { ReactNode } from 'react';
+import BlockTabs from './BlockTabs';
 
 const BlockDetail = () => {
     const blocksContextData = useRecentBlocksContext();
@@ -12,6 +12,7 @@ const BlockDetail = () => {
     const [txpow, setTxpow] = useState<any>(null);
     const routerParams = useParams();
     const txpowid = routerParams.txpowid;
+    // console.log('txpow', txpow);
 
     useEffect(() => {
         if (routerParams.txpowid) {
@@ -28,17 +29,13 @@ const BlockDetail = () => {
         }
     }, [txpowid, blocksContextData]);
 
-    const onTabSelected = (event: SyntheticEvent, newValue: number) => {
-        setTabNumber(newValue);
-    };
-
     const DetailContainer = ({ children }: any) => {
         return (
             <Box
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
                     boxShadow: 1,
-                    borderRadius: 2,
+                    borderRadius: 1.5,
                     p: 2,
                     mt: 2,
                     mb: 2,
@@ -51,10 +48,13 @@ const BlockDetail = () => {
     };
 
     const Detail = ({ myTxpow }: any) => {
+        const allTransactions = myTxpow.body.txnlist.concat(myTxpow.body.burntxn);
+        // console.log('allTransactions', allTransactions);
         return (
             <>
                 <DetailContainer>
                     <DisplayItem heading="TxPoW ID" text={myTxpow.txpowid} />
+                    <DisplayItem heading="Block" text={myTxpow.header.block} />
                     <DisplayItem heading="Timestamp" text={myTxpow.header.date} />
                     <DisplayItem heading="Size" text={myTxpow.size} />
                     <DisplayItem heading="Is a block?" text={myTxpow.isblock ? 'Yes' : 'No'} />
@@ -103,9 +103,7 @@ const BlockDetail = () => {
                                 <DisplayItem heading="Index" text={i.toString()} />
                                 <DisplayItem heading="Coin ID" text={input.coinid} />
                                 <DisplayItem heading="Address" text={input.address} />
-                                <DisplayItem heading="Mx Address" text="???" />
                                 <DisplayItem heading="Token Id" text={input.tokenid} />
-                                <DisplayItem heading="Value" text="???" />
                                 <DisplayItem heading="Amount" text={input.amount} />
                                 <DisplayItem heading="Token Amount" text={input.tokenamount} />
                             </DetailContainer>
@@ -135,13 +133,7 @@ const BlockDetail = () => {
     return (
         <>
             <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={tabNumber} onChange={onTabSelected} aria-label="basic tabs example">
-                        <Tab label="Details" />
-                        <Tab label="Inputs" />
-                        <Tab label="Outputs" />
-                    </Tabs>
-                </Box>
+                <BlockTabs tabNumber={tabNumber} setTabNumber={setTabNumber}></BlockTabs>
                 {txpow ? displayTab() : null}
             </Box>
         </>

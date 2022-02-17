@@ -39,38 +39,40 @@ const SideMenu = ({ handleDrawerToggle }: IProps) => {
 
     return (
         <>
-            <Toolbar />
-            <Toolbar />
+            <Toolbar variant="dense" />
+            <Toolbar variant="dense" />
             <Divider />
 
-            <List>
-                {sidebarRoutes.map((route, i) => {
-                    return (
-                        <ListItem button onClick={onMenuItemClicked(route.path)} key={i}>
-                            <ListItemIcon>
-                                <Radio sx={{ p: 0 }} checked={activeRoute(route.path)} />
-                            </ListItemIcon>
+            <Grid container direction="column" justifyContent="space-between" sx={{ height: '100%' }}>
+                <List>
+                    {sidebarRoutes.map((route, i) => {
+                        return (
+                            <ListItem button onClick={onMenuItemClicked(route.path)} key={i}>
+                                <ListItemIcon>
+                                    <Radio sx={{ p: 0 }} checked={activeRoute(route.path)} />
+                                </ListItemIcon>
 
-                            <ListItemText primary={route.sidebarName} />
-                        </ListItem>
-                    );
-                })}
-            </List>
+                                <ListItemText primary={route.sidebarName} />
+                            </ListItem>
+                        );
+                    })}
+                </List>
 
-            <Typography pl={2} mt={10}>
-                {/* Latest Block: {blockNumber} */}
-                {connected ? 'Connected' : 'Not Connected'}
-            </Typography>
-            <Button variant="contained" sx={{ ml: 2, mr: 2, mt: 4 }}>
-                Urgent CTA
-            </Button>
+                <Grid item sx={{ mb: 2 }}>
+                    <Box sx={{ pl: 2, pr: 2, width: '100%' }}>
+                        <Button variant="outlined" sx={{ width: '100%' }}>
+                            Close Block
+                        </Button>
+                    </Box>
 
-            <Grid container sx={{ pl: 2, pr: 2, mt: 4 }} alignItems="flex-end">
-                <Grid item xs={4}>
-                    <Box sx={{ fontSize: 12, letterSpacing: 0.02, lineHeight: 1.5 }}>Powered by</Box>
-                </Grid>
-                <Grid item xs={8}>
-                    <LandscapeLogo></LandscapeLogo>
+                    <Grid container sx={{ pl: 2, pr: 2, mt: 4 }} alignItems="flex-end">
+                        <Grid item xs={4}>
+                            <Box sx={{ fontSize: 12, letterSpacing: 0.02, lineHeight: 1.5 }}>Powered by</Box>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <LandscapeLogo></LandscapeLogo>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </>
