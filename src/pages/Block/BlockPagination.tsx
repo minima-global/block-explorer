@@ -1,8 +1,7 @@
 import { Button } from '@mui/material';
 
 import { IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import usePagination, { UsePaginationItem } from '@mui/material/usePagination';
 import { styled } from '@mui/material/styles';
 import { RowsState } from './../../minima/useRecentBlocks';
@@ -16,12 +15,13 @@ interface IProps {
 const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
     const List = styled('ul')({
         listStyle: 'none',
-        padding: 1,
+        padding: 0,
         marginTop: 0,
         marginBottom: 10,
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
+        alignItems: 'baseline',
     });
     const pageCount = Math.max(1, Math.ceil(rowsState.rowCount / pageSize));
     const pagination = usePagination({
@@ -68,14 +68,14 @@ const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
                         );
                     } else if (type === 'first') {
                         children = (
-                            <IconButton aria-label="delete" color="primary" {...item}>
-                                <ArrowBackIcon />
+                            <IconButton aria-label="delete" color="primary" {...item} sx={{ mr: 0 }}>
+                                <KeyboardDoubleArrowLeft />
                             </IconButton>
                         );
                     } else if (type === 'last') {
                         children = (
-                            <IconButton aria-label="delete" color="primary" {...item}>
-                                <ArrowForwardIcon />
+                            <IconButton aria-label="delete" color="primary" {...item} sx={{ ml: 0 }}>
+                                <KeyboardDoubleArrowRight />
                             </IconButton>
                         );
                     } else {

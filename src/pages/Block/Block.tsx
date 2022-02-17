@@ -62,7 +62,8 @@ const Block = () => {
         setSearchText(event.target.value);
     };
 
-    const onSearchClicked = () => {
+    const onSearchClicked = (event: any) => {
+        event.preventDefault();
         setSearchString(searchText);
     };
 
