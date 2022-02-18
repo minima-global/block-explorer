@@ -99,7 +99,7 @@ const Block = () => {
                     fontSize: 14,
                 }}
             >
-                <Typography variant="h5">Discover the heaviest leaf in the chain and traverse through.</Typography>
+                <Typography variant="h4">Discover the heaviest leaf in the chain and traverse through.</Typography>
                 <form onSubmit={onSearchClicked} id="search-form">
                     <TextField
                         value={searchText}
@@ -126,7 +126,7 @@ const Block = () => {
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
                     boxShadow: 1,
-                    borderRadius: 1,
+                    borderRadius: 1.5,
                     mt: 2,
                     mb: 2,
                     height: 600,

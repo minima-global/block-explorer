@@ -1,0 +1,104 @@
+{
+    "txpowid": "0x0000000015C53EF557B4C1F2724E7922865C47CBDCD9841510ACF4D89E19E67F",
+    "isblock": true,
+    "istransaction": false,
+    "superblock": 11,
+    "size": 833,
+    "header": {
+        "block": "158973",
+        "blkdiff": "0x01165460BD4025BB4CD1182F397C2D4C526F7C06D6897298A2F9870E9029",
+        "cascadelevels": 32,
+        "superparents": [
+            {
+                "difficulty": 0,
+                "count": 1,
+                "parent": "0x0000009B5C89E49EC71A0695C05E8DB90731A6BA9BD33CA17FD68FD49200AEE5"
+            },
+            {
+                "difficulty": 4,
+                "count": 4,
+                "parent": "0x0000000B913CBCCD05941A5A1EB78BE485D3B7AE420216BC9F462D43D279790A"
+            },
+            {
+                "difficulty": 6,
+                "count": 2,
+                "parent": "0x00000005EB0228BF214447528353CAC0D423808F89D6C2708763E2C37B1FA6A6"
+            },
+            {
+                "difficulty": 8,
+                "count": 2,
+                "parent": "0x00000000A81BC7303B3331821D2B9B269BDBAD826F0EB9882ED53679213FFCA5"
+            },
+            {
+                "difficulty": 9,
+                "count": 1,
+                "parent": "0x0000000073E368ADE48E591DAB9EB1B574BA6BC9EE592091631C4DE2601EC0A8"
+            },
+            {
+                "difficulty": 10,
+                "count": 1,
+                "parent": "0x000000004E1BB0B05AE8A7B5016269B448A9DA7C6E9416A6B7BE75D1576F1069"
+            },
+            {
+                "difficulty": 11,
+                "count": 1,
+                "parent": "0x000000001A3E35BB8C190A3DE2115D3AB5296C1CCD75C0E3F6B5CC4003C13FB8"
+            },
+            {
+                "difficulty": 13,
+                "count": 2,
+                "parent": "0x000000000910EB89B6D1476757EEF84FE490D36CA0774ECE0A58866BE23B4FF9"
+            },
+            {
+                "difficulty": 15,
+                "count": 2,
+                "parent": "0x00000000022C2B5665DB6362EB4D9424A755105226DBE8EE194F3A1639B9BBC0"
+            },
+            {
+                "difficulty": 18,
+                "count": 3,
+                "parent": "0x000000000052ABB24754A0A7A2F793C1AEDD18A32A236A0B51F44C6D2A9342F6"
+            },
+            { "difficulty": 31, "count": 13, "parent": "0x00" }
+        ],
+        "magic": {
+            "desiredmaxtxpow": "32000",
+            "desiredmaxtxn": "100",
+            "desiredmintxpowwork": "0x4189374BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A7",
+            "maxtxpow": "32000",
+            "maxtxn": "100",
+            "mintxpowwork": "0x4189374BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A7"
+        },
+        "mmr": "0x5CB7949CC21D71C356C91DC5ECF34E3C763078CB35B466128A711171BB4D4256",
+        "total": "1000000000",
+        "txbodyhash": "0x671F709D83315CE3F197095460C817BCC34BC1A13075357D505DD61301F1AD57",
+        "nonce": "99827369765001093.47674644987345528499577107269751574364161",
+        "timemilli": "1645175499541",
+        "date": "Fri Feb 18 09:11:39 GMT 2022"
+    },
+    "hasbody": true,
+    "body": {
+        "prng": "0x6F99B8A5699E0A1A467205BF5294C31564E33B06EA3217EECEFC3F412B6051E3",
+        "txndiff": "0x068DB8BAC710CB295E9E1B089A027525460AA64C2F837B4A2339C0EBEDFA43",
+        "txn": {
+            "inputs": [],
+            "outputs": [],
+            "state": [],
+            "linkhash": "0x00",
+            "transactionid": "0xAB728B0D4A215A520DAA3DB2A618CBD24AB3A3A36293B07FA2EF55CBBD765613"
+        },
+        "witness": { "signatures": [], "mmrproofs": [], "scripts": [] },
+        "burntxn": {
+            "inputs": [],
+            "outputs": [],
+            "state": [],
+            "linkhash": "0x00",
+            "transactionid": "0xAB728B0D4A215A520DAA3DB2A618CBD24AB3A3A36293B07FA2EF55CBBD765613"
+        },
+        "burnwitness": { "signatures": [], "mmrproofs": [], "scripts": [] },
+        "txnlist": [
+            "0x0002939056BA842BABAD1ED5CE20D649BD9D0D05BCFA010F6CED7211069D20A4",
+            "0x0005CA8097F6CB777B5CA090ACE1FAA533FDA1ACC27E93C5D96C36C23E2A7429"
+        ]
+    }
+}

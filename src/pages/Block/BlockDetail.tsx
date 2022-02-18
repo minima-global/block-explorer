@@ -1,7 +1,7 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTxpow } from './../../minima/rpc-commands';
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import DisplayItem from './DisplayItem';
 import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
 import BlockTabs from './BlockTabs';
@@ -12,7 +12,7 @@ const BlockDetail = () => {
     const [txpow, setTxpow] = useState<any>(null);
     const routerParams = useParams();
     const txpowid = routerParams.txpowid;
-    // console.log('txpow', txpow);
+    // console.log('txpow', JSON.stringify(txpow));
 
     useEffect(() => {
         if (routerParams.txpowid) {
@@ -48,8 +48,6 @@ const BlockDetail = () => {
     };
 
     const Detail = ({ myTxpow }: any) => {
-        const allTransactions = myTxpow.body.txnlist.concat(myTxpow.body.burntxn);
-        // console.log('allTransactions', allTransactions);
         return (
             <>
                 <DetailContainer>
@@ -67,8 +65,19 @@ const BlockDetail = () => {
                     />
                 </DetailContainer>
 
+                <BurnTransaction burntxn={myTxpow.body.burntxn}></BurnTransaction>
                 <Transactions transactions={myTxpow.body.txnlist} />
             </>
+        );
+    };
+
+    const BurnTransaction = ({ burntxn }: any) => {
+        return (
+            <DetailContainer>
+                <Typography variant="h4">Burn Transaction</Typography>
+                <DisplayItem heading="Transaction Id" text={burntxn.transactionid} />
+                <DisplayItem heading="Link Hash" text={burntxn.linkhash} />
+            </DetailContainer>
         );
     };
 
@@ -78,7 +87,7 @@ const BlockDetail = () => {
         } else {
             return (
                 <DetailContainer>
-                    <h4>Transactions</h4>
+                    <Typography variant="h4">Transactions</Typography>
                     {transactions.map((txnHash: string, i: number) => (
                         <DisplayItem heading="Transaction" text={txnHash} link={`/${txnHash}`} key={i} />
                     ))}

@@ -1,5 +1,3 @@
-import ManropRegular from './Manrope-Regular.woff2';
-import FrostedBlue from './frosted-blue.jpg';
 import uiBackground from './LM.jpg';
 import { createTheme } from '@mui/material/styles';
 
@@ -35,7 +33,18 @@ let theme = createTheme({
         menu: { main: 'rgba(255, 255, 255, 0.95)' },
     },
     typography: {
-        fontFamily: ['Manrope-regular'].join(','),
+        fontFamily: ['Manrope'].join(','),
+        h6: {
+            fontWeight: 700,
+            fontSize: '14px',
+            lineHeight: '21px',
+        },
+        h4: {
+            fontWeight: 700,
+            fontSize: '18px',
+            lineHeight: '27px',
+            letterSpacing: '0.02em',
+        },
         h2: {
             fontWeight: 700,
             fontSize: 18,
@@ -46,7 +55,7 @@ let theme = createTheme({
         },
         body1: {
             fontSize: 17,
-            fontWeight: 300,
+            fontWeight: 400,
             lineHeight: 1.04,
         },
     },
@@ -59,10 +68,6 @@ let theme = createTheme({
     components: {
         MuiCssBaseline: {
             styleOverrides: `
-            @font-face {
-                font-family: Manrope-regular;
-                src: url(${ManropRegular}) format('woff2');
-            }
             body {
                 background-image: url(${uiBackground});
                 background-size: cover;

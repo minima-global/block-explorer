@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 interface Iprops {
@@ -20,7 +20,7 @@ const DisplayItem = ({ heading, text, link }: Iprops) => {
                 fontSize: 14,
             }}
         >
-            <Box sx={{ fontWeight: 'bold' }}>{heading}</Box>
+            <Typography variant="h6">{heading}</Typography>
             <Box sx={{ overflow: 'hidden', mt: 0.5 }}>{link ? <Link to={link}>{text}</Link> : text}</Box>
         </Box>
     );

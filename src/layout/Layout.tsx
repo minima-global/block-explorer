@@ -52,7 +52,7 @@ export default function Layout() {
             >
                 <Toolbar variant="dense" sx={{ bgcolor: 'text.secondary' }}>
                     <Grid container justifyContent="center">
-                        <Grid item></Grid>Block
+                        <Grid item>Block</Grid>
                     </Grid>
                 </Toolbar>
                 <Toolbar variant="dense">
@@ -74,7 +74,9 @@ export default function Layout() {
                         </IconButton>
                     )}
 
-                    <Typography>{getPageName()}</Typography>
+                    <Typography sx={{ mb: 0.25 }} variant="h4">
+                        {getPageName()}
+                    </Typography>
                 </Toolbar>
             </AppBar>
 
