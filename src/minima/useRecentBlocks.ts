@@ -32,7 +32,7 @@ const useRecentBlocks = () => {
     const [rowsState, setRowsState] = useState<RowsState>({
         page: 0,
         rows: [],
-        rowCount: MINIMA_TOTAL_ROWS,
+        rowCount: 0,
         loading: false,
     });
 
@@ -206,7 +206,7 @@ const useRecentBlocks = () => {
                     }));
                 },
                 (err: any) => {
-                    setRowsState((prev) => ({ ...prev, loading: false }));
+                    setRowsState((prev) => ({ ...prev, loading: false, rowCount: 0 }));
                     console.error(err);
                 }
             );
