@@ -1,6 +1,6 @@
 import useStatus from './useStatus';
 import { useState, useEffect, useCallback } from 'react';
-import { getTxpow, getTxpowByBlockNumber, getTxpowByAddress } from './rpc-commands';
+import { commands } from '@minima-global/mds-api';
 import { GridRowModel } from '@mui/x-data-grid';
 
 interface RecentBlock {
@@ -55,7 +55,7 @@ const useRecentBlocks = () => {
     // takes a txpowid
     // returns a (promise of) single RecentBlock object
     const getRecentBlockByTxpowId: (txpowid: string) => Promise<RecentBlock> = useCallback((txpowid: string) => {
-        return getTxpow(txpowid).then((txpow: any) => {
+        return commands.txpow_txpowid(txpowid).then((txpow: any) => {
             return {
                 block: parseInt(txpow.header.block),
                 hash: txpow.txpowid,
@@ -71,7 +71,7 @@ const useRecentBlocks = () => {
     // returns (promise of) an array of RecentBlock objects (each is a block, so no transactions)
     const getRecentBlocksByBlockNumber: (b: number[]) => Promise<RecentBlock[]> = useCallback(
         async (blockNumbers: number[]) => {
-            const txpowPromises = blockNumbers.map((blockNumber) => getTxpowByBlockNumber(blockNumber));
+            const txpowPromises = blockNumbers.map((blockNumber) => commands.txpow_block(blockNumber));
             return Promise.all(txpowPromises).then((txpows) => {
                 const recentBlocks: RecentBlock[] = txpows.map((txpow: any) => {
                     return {
@@ -94,7 +94,7 @@ const useRecentBlocks = () => {
     // returns (promise of) an array of RecentBlock objects (each is a block, so no transactions)
     const getRecentBlocksByAddress: (address: string) => Promise<RecentBlock[]> = useCallback(
         async (address: string) => {
-            const txpows: any[] = await getTxpowByAddress(address);
+            const txpows: any[] = await commands.txpow_address(address);
             const uniqueTxpows = removeDuplicates(txpows); // some are blocks some are transactions
             // get all the unique block numbers
             let blockNumbers: Set<number> = new Set();
@@ -161,6 +161,7 @@ const useRecentBlocks = () => {
     );
 
     useEffect(() => {
+        console.log(status);
         const blockNum: number = status.chain.block;
         setLatestBlockNumber(blockNum);
     }, [status]);

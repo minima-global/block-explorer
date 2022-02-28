@@ -5,6 +5,7 @@
     "dependencies": {
         "@emotion/react": "^11.7.1",
         "@emotion/styled": "^11.6.0",
+        "@minima-global/mds-api": "^0.1.1",
         "@mui/icons-material": "^5.3.1",
         "@mui/material": "^5.3.1",
         "@mui/system": "^5.3.0",
@@ -33,7 +34,6 @@
         "build-zip": "npm run build && zip -r build.zip build"
     },
     "homepage": ".",
-    "proxy": "http://localhost:9002",
     "eslintConfig": {
         "extends": [
             "react-app",

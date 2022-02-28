@@ -1,4 +1,4 @@
-import { callCommand } from '../minima/rpc-commands';
+import { commands } from '@minima-global/mds-api';
 import { useState, useRef, useEffect } from 'react';
 import { Button, Paper, TextField, TextareaAutosize } from '@mui/material';
 import { useSnackbar } from 'notistack';
@@ -17,7 +17,7 @@ const Terminal = () => {
     const buttonRef: any = useRef(null);
 
     useEffect(() => {
-        callCommand('status').then(
+        commands.status().then(
             (data: any) => {
                 if (data.status) {
                     const welcome = `
@@ -60,7 +60,7 @@ const Terminal = () => {
             commandHistoryIndex = -1;
             typedStuff = '';
 
-            callCommand(command).then(
+            commands.custom({name: '', args: {}}).then( // TODO sorry Neil, I broke it :(
                 (data: any) => {
                     setCommand('');
                     if (data.status) {
