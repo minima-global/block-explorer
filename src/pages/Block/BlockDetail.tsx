@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getTxpow } from './../../minima/rpc-commands';
+import { commands } from '@minima-global/mds-api';
 import { Box, Typography } from '@mui/material';
 import DisplayItem from './DisplayItem';
 import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
@@ -16,13 +16,13 @@ const BlockDetail = () => {
 
     useEffect(() => {
         if (routerParams.txpowid) {
-            getTxpow(routerParams.txpowid).then(
+            commands.txpow_txpowid(routerParams.txpowid).then(
                 (txpow: any) => {
                     // TODO: create txpow type
                     setTxpow(txpow);
                     blocksContextData.setVisibleBlockNumber(txpow.header.block);
                 },
-                (err) => {
+                (err: any) => {
                     console.error(err);
                 }
             );

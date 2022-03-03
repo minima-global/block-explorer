@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Status } from '../types/minima';
-import { callStatus } from './rpc-commands';
+import { commands, Status } from '@minima-global/mds-api';
 import { POLL_INTERVAL } from './constants';
 
 const useStatus = () => {
     const [latest, setLatest] = useState<Status>(EmptyStatus);
 
     useEffect(() => {
-        callStatus().then(
+        commands.status().then(
             (data) => {
+                console.log('dddd');
                 setLatest(data);
             },
             (err) => {
@@ -18,8 +18,9 @@ const useStatus = () => {
         );
 
         const subscription = setInterval(() => {
-            callStatus().then(
+            commands.status().then(
                 (data) => {
+                    console.log(data);
                     setLatest(data);
                 },
                 (err) => {

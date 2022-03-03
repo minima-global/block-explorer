@@ -15,7 +15,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Routes, { RouteType } from '../app.routes';
 // import useBlockNumber from '../minima/useBlockNumber';
 import { ReactComponent as LandscapeLogo } from './LANDSCAPE-01.svg';
-import useMinimaInit from '../minima/useMinimaInit';
 
 interface IProps {
     handleDrawerToggle: () => void;
@@ -25,7 +24,6 @@ const SideMenu = ({ handleDrawerToggle }: IProps) => {
     const navigate = useNavigate();
     const routerLocation = useLocation();
     // const blockNumber = useBlockNumber();
-    const connected = useMinimaInit();
     const activeRoute = (routeName: any) => {
         return routerLocation.pathname === routeName ? true : false;
     };

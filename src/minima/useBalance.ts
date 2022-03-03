@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { MinimaToken } from '../types/minima';
-import { callBalance } from './rpc-commands';
+import { MinimaToken } from '@minima-global/mds-api';
+import { commands } from '@minima-global/mds-api';
 
 const useBalance = () => {
     const [balance, setBalance] = useState<MinimaToken[]>([]);
 
     useEffect(() => {
-        callBalance()
+        commands
+            .balance()
             .then((data: any) => {
                 if (data.status) {
                     setBalance(data.response.balance);
@@ -17,7 +18,7 @@ const useBalance = () => {
                 setBalance([]);
             });
         setInterval(() => {
-            callBalance().then(
+            commands.balance().then(
                 (data: any) => {
                     if (data.status) {
                         setBalance(data.response);

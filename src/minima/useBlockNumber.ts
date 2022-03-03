@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { callStatus } from './rpc-commands';
+import { commands } from '@minima-global/mds-api';
 
 const useBlockNumber = () => {
     const [blockNumber, setBlockNumber] = useState(-1);
 
     useEffect(() => {
         setInterval(() => {
-            callStatus().then(
+            commands.status().then(
                 (data: any) => {
                     setBlockNumber(data.response.chain.block);
                 },

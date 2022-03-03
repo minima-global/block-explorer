@@ -1,15 +1,15 @@
-import { callSend } from '../minima/rpc-commands';
 import { useSnackbar } from 'notistack';
 import { Button, TextField, Box } from '@mui/material';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useEffect, useRef } from 'react';
+import { commands } from '@minima-global/mds-api';
 
 const Send = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const readerDiv = useRef(null);
 
     const onSendClicked = () => {
-        callSend({
+        commands.send({
             address: '',
             amount: '',
             tokenid: '',
