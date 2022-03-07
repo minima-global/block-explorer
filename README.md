@@ -26,3 +26,7 @@ Uses useStatus() hook which polls mds. TODO - do we want to keep this or use the
 # Tooling
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Notes
+
+-   docs should be something like https://web3js.readthedocs.io/en/v1.7.0/

@@ -8,7 +8,6 @@ const useStatus = () => {
     useEffect(() => {
         commands.status().then(
             (data) => {
-                console.log('dddd');
                 setLatest(data);
             },
             (err) => {
@@ -20,7 +19,6 @@ const useStatus = () => {
         const subscription = setInterval(() => {
             commands.status().then(
                 (data) => {
-                    console.log(data);
                     setLatest(data);
                 },
                 (err) => {

@@ -161,7 +161,6 @@ const useRecentBlocks = () => {
     );
 
     useEffect(() => {
-        console.log(status);
         const blockNum: number = status.chain.block;
         setLatestBlockNumber(blockNum);
     }, [status]);
