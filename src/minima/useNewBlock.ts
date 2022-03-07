@@ -21,7 +21,6 @@ const useNewBlock = () => {
             const event = res.event;
             const data = res.data;
             if (event === 'NEWBLOCK') {
-                // console.log('NEWBLOCK', data.txpow);
                 setNewBlock(data.txpow);
             }
         };
