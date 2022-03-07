@@ -35,12 +35,18 @@ const useRecentBlocks = () => {
         loading: false,
     });
 
+    /**
+     * @param {string} address, a minima address
+     * @returns {boolean} true if it is an address, false otherwise
+     */
     const isAddress = useCallback((address: string) => {
         return address.startsWith('0x') && address.length === 66;
     }, []);
 
-    // takes an array of txpow objects
-    // returns an array of txpow objects with none having the same txpowid
+    /**
+     * @param {txpow[]} txpows
+     * @returns {txpow[]} with none having the same txpowid
+     */
     const removeDuplicates = useCallback((txpows: any[]) => {
         let unique: any = {};
         txpows.forEach((txpow) => {
@@ -51,8 +57,10 @@ const useRecentBlocks = () => {
         return uniqueArray;
     }, []);
 
-    // takes a txpowid
-    // returns a (promise of) single RecentBlock object
+    /**
+     * @param {string} txpowid
+     * @returns {promise<RecentBlock>} a single RecentBlock object
+     */
     const getRecentBlockByTxpowId: (txpowid: string) => Promise<RecentBlock> = useCallback((txpowid: string) => {
         return commands.txpow_txpowid(txpowid).then((txpow: any) => {
             return {
@@ -66,8 +74,10 @@ const useRecentBlocks = () => {
         });
     }, []);
 
-    // takes an array of block numbers
-    // returns (promise of) an array of RecentBlock objects (each is a block, so no transactions)
+    /**
+     * @param {number[]} blockNumbers an array of block numbers
+     * @returns {promise<RecentBlock[]>} an array of RecentBlock objects (each is a block, so no transactions)
+     */
     const getRecentBlocksByBlockNumber: (b: number[]) => Promise<RecentBlock[]> = useCallback(
         async (blockNumbers: number[]) => {
             const txpowPromises = blockNumbers.map((blockNumber) => commands.txpow_block(blockNumber));
@@ -88,9 +98,11 @@ const useRecentBlocks = () => {
         []
     );
 
-    // takes a minima address
-    // gets all the blocks and transactions associated with that address
-    // returns (promise of) an array of RecentBlock objects (each is a block, so no transactions)
+    /**
+     * @param {string} address, a minima address
+     * gets all the blocks and transactions associated with that address
+     * @returns {promise<RecentBlock[]>} an array of RecentBlock objects (each is a block, so no transactions)
+     */
     const getRecentBlocksByAddress: (address: string) => Promise<RecentBlock[]> = useCallback(
         async (address: string) => {
             const txpows: any[] = await commands.txpow_address(address);
@@ -106,8 +118,12 @@ const useRecentBlocks = () => {
         [getRecentBlocksByBlockNumber, removeDuplicates]
     );
 
-    // search for a number against minima block number
-    // update search results state if successful
+    /**
+     * @param {string} searchString, could be a minima block number
+     * search for a number against minima block number
+     * update search results state if successful
+     * @returns {void}
+     */
     const searchForBlockNumber = useCallback(
         (searchString: string) => {
             setRowsState((prev) => ({ ...prev, loading: true }));
@@ -126,9 +142,13 @@ const useRecentBlocks = () => {
         [setSearchResultBlocks, setRowsState, getRecentBlocksByBlockNumber]
     );
 
-    // search for a string against minima txpowid
-    // and if it fails try against minima address
-    // update search results state if successful
+    /**
+     * @param {string} searchString, could be a txpowid or address
+     * search for a string against minima txpowid
+     * and if it fails try against minima address
+     * update search results state if successful
+     * @returns {void}
+     */
     const searchForTxpowIdOrAddress = useCallback(
         (searchString: string) => {
             getRecentBlockByTxpowId(searchString).then(
@@ -159,10 +179,18 @@ const useRecentBlocks = () => {
         [getRecentBlockByTxpowId, getRecentBlocksByAddress, isAddress]
     );
 
+    /**
+     * side effect to change state on searchString change
+     * @returns {void}
+     */
     useEffect(() => {
         setRowsState((prev) => ({ ...prev, page: 0 }));
     }, [searchString]);
 
+    /**
+     * side effect to pagination of search results
+     * @returns {void}
+     */
     useEffect(() => {
         if (searchString === '') {
             // do nothing, we will handle this in another useEffect
@@ -175,7 +203,13 @@ const useRecentBlocks = () => {
         }
     }, [searchResultBlocks, rowsState.page, searchString]);
 
-    /////////////////// Network requests all happen in this effect ///////////////////
+    /**
+     * ALL NETWORK REQUESTS ARE HANDLED IN THIS EFFECT
+     * Side effect to handle the main data grid
+     * This will show either the block history
+     * or the results of a search
+     * @returns {void}
+     */
     useEffect(() => {
         if (searchString === '') {
             // do nothing on initial state
