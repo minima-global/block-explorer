@@ -50,4 +50,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - A. TxPow is a basic building block in Minima. A block is a txpow, a transaction is a txpow...
 
 - Q. How do i see a transaction on the blockchain?
-- Q. We can view the transactoins in any block by going into the `txpow.body.txnlist`. There you will find the txpow id for each transaction. Calling `commands.txpow_txpowid(txpowid)` will return the transaction txpow. In there will be the inputs and outputs of the transaction that are part of the UTXO model.
+- A. We can view the transactoins in any block by going into the `txpow.body.txnlist`. There you will find the txpow id for each transaction. Calling `commands.txpow_txpowid(txpowid)` will return the transaction txpow. In there will be the inputs and outputs of the transaction that are part of the UTXO model.
