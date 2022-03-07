@@ -10,7 +10,19 @@
 -   A. Right now will need access token. Update .npmrc etc.. MDS is the applications service layer
 
 -   Q. How do i deploy my project?
--   A. Build it and distribute it yourself to users.
+-   A. TODO: so as it stands (subject to change after feedback)....
+    package is what we'll call mds files/assets that have been zipped up and are for distribution or installation
+    so I zip up the following:
+
+    dapp.yml
+    index.html
+    otherJsFromNpmBuild.js
+    init.js
+    newBlock.js
+    mining.js
+    And I call it a package. So for installation I say...install this package file on this port (port will be automatically allocated eventually)
+    But this all new stuff. So it needs feedback
+    ideally we want to have a npm package.json script that does this for us i.e. "minidapp-package": "npm run build && zip -r out.zip ."
 
 -   Q. What is a TxPow and why do i need to know about it?
 -   A. TxPow is a basic building block in Minima. A block is a txpow, a transaction is a txpow... The MDS library exports the Txpow interface.
