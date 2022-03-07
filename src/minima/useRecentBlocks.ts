@@ -1,7 +1,7 @@
-import useStatus from './useStatus';
 import { useState, useEffect, useCallback } from 'react';
 import { commands } from '@minima-global/mds-api';
 import { GridRowModel } from '@mui/x-data-grid';
+import useNewBlock from './useNewBlock';
 
 interface RecentBlock {
     block: number;
@@ -24,8 +24,7 @@ const PAGE_SIZE = 10;
 const MINIMA_TOTAL_ROWS = 1000;
 
 const useRecentBlocks = () => {
-    const status = useStatus();
-    const [latestBlockNumber, setLatestBlockNumber] = useState<number>(0);
+    const newBlock = useNewBlock();
     const [searchString, setSearchString] = useState<string>('');
     const [searchResultBlocks, setSearchResultBlocks] = useState<RecentBlock[]>([]);
     // visible table rows and pagination state
@@ -161,11 +160,6 @@ const useRecentBlocks = () => {
     );
 
     useEffect(() => {
-        const blockNum: number = status.chain.block;
-        setLatestBlockNumber(blockNum);
-    }, [status]);
-
-    useEffect(() => {
         setRowsState((prev) => ({ ...prev, page: 0 }));
     }, [searchString]);
 
@@ -185,9 +179,11 @@ const useRecentBlocks = () => {
     useEffect(() => {
         if (searchString === '') {
             // do nothing on initial state
-            if (latestBlockNumber === 0) {
+            if (newBlock == null) {
                 return;
             }
+
+            const latestBlockNumber = parseInt(newBlock.header.block);
 
             let pageBlockNumbers: number[] = [];
             const topBlock = latestBlockNumber - rowsState.page * PAGE_SIZE;
@@ -222,8 +218,8 @@ const useRecentBlocks = () => {
             }
         }
     }, [
+        newBlock,
         rowsState.page,
-        latestBlockNumber,
         searchString,
         getRecentBlocksByBlockNumber,
         getRecentBlocksByAddress,

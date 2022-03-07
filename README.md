@@ -23,6 +23,8 @@ TODO - block type txpow vs transaction type txpow
 
 Uses useStatus() hook which polls mds. TODO - do we want to keep this or use the websocket??
 
+-   event vs command api
+
 # Tooling
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
