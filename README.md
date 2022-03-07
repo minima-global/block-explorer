@@ -33,8 +33,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # QnA
 
+
+- Q. What is a minidapp and how is it different from a regular app?
+- A. Traditional web apps use a centralised database as part of thier back end. Minidapps use the minima blockchain instead for thier back end.
+
 - Q. How do I create a minima dapp?
+- A. You can import the MDS library into any javascript project. This will give you access to all minima data and services.
+
 - Q. How/Why do I use MDS in my project?
+- A. Atm will need access token. Update .npmrc etc.. MDS is the applications service layer 
+
 - Q. How do i deploy my project?
+- A. Build it and distribute it yourself to users.
+
 - Q. What is a TxPow and why do i need to know about it?
-- Q. 
+- A. TxPow is a basic building block in Minima. A block is a txpow, a transaction is a txpow...
+
+- Q. How do i see a transaction on the blockchain?
+- Q. We can view the transactoins in any block by going into the `txpow.body.txnlist`. There you will find the txpow id for each transaction. Calling `commands.txpow_txpowid(txpowid)` will return the transaction txpow. In there will be the inputs and outputs of the transaction that are part of the UTXO model.
