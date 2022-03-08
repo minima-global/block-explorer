@@ -50,6 +50,7 @@ In the Block Explorer app, we are using two parts of the the MDS api, `commands`
 For more information on MDS see the dedicated documentation at <mds-docs-more-coming-soon>
 
 **Commands** is a pull based api so we can request data based on our application lifecycle.
+    
 **Events** is a push based api (websocket) so our app can subscribe to Minima events as they occur.
 
 ## Blockchain data we request from the Minima DApp System
