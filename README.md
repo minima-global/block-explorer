@@ -1,18 +1,25 @@
 # QnA
 
--   Q. What is a minidapp and how is it different from a regular app?
--   A. Traditional web apps use a centralised database as part of thier back end. Minidapps use the minima blockchain instead for thier back end.
+1. What is a MiniDapp and how is it different from a regular app?
 
--   Q. How do I create a minima dapp?
--   A. You can import the MDS library into any javascript project. This will give you access to all minima data and services.
+    Traditional web apps use a centralised database as part of their back end. MiniDapps are decentralized applications using the Minima blockchain instead for their back end.
 
--   Q. How/Why do I use MDS in my project?
--   A. Right now will need access token. Update .npmrc etc.. MDS is the applications service layer
+2. What is the Minima Dapp System (MDS)?
 
--   Q. How do i deploy my project?
--   A. TODO: so as it stands (subject to change after feedback)....
-    package is what we'll call mds files/assets that have been zipped up and are for distribution or installation
-    so I zip up the following:
+Explain here what MDS is...
+
+3. How do I create a MiniDapp?
+
+    You can import the Minima Dapp System (MDS) library into any javascript project. This will give you access to all Minima data and services.
+
+4. How/Why do I use the Minima Dapp System (MDS) in my project?
+
+    Right now you will need an access token. Update .npmrc etc.. MDS is the applications service layer
+
+5. How do I deploy my project?
+ 
+    TODO: so as it stands (subject to change after feedback)....
+package is what we'll call mds files/assets that have been zipped up and are for distribution or installation so I zip up the following:
 
     dapp.yml
     index.html
@@ -24,24 +31,27 @@
     But this all new stuff. So it needs feedback
     ideally we want to have a npm package.json script that does this for us i.e. "minidapp-package": "npm run build && zip -r out.zip ."
 
--   Q. What is a TxPow and why do i need to know about it?
--   A. TxPow is a basic building block in Minima. A block is a txpow, a transaction is a txpow... The MDS library exports the Txpow interface.
+6. What is TxPoW and why do I need to know about it?
+
+    TxPoW stands for Transaction Proof-of-Work. A TxPoW object is a basic building block in Minima. A TxPoW object contains transactions and in some cases will become a block on the Minima blockchain. The MDS library exports the TxPoW interface containing the properties of a TxPoW object.
     TODO - why are we using that type
     TODO - what properties do we use and what do we do with them
     TODO - block type txpow vs transaction type txpow
 
--   Q. How do i see a transaction on the blockchain?
--   A. We can view the transactoins in any block by going into the `txpow.body.txnlist`. There you will find the txpow id for each transaction. Calling `commands.txpow_txpowid(txpowid)` will return the transaction txpow. In there will be the inputs and outputs of the transaction that are part of the UTXO model.
--
+7. How do I see a transaction on the blockchain?
+
+    We can view the transactions in any block by going into the `txpow.body.txnlist`. There you will find the TxPoW ID for each transaction. Calling `commands.txpow_txpowid(txpowid)` will return the transaction TxPoW. In there will be the inputs and outputs of the transaction that are part of the UTXO model.
+
 
 # Minima DApp System (MDS)
 
-In the Block Explorer app, we are using two parts of the the mds api. This is `commands` and `events`. Other parts we are not using include `database` and `file`
+In the Block Explorer app, we are using two parts of the the MDS api, `commands` and `events`. Other parts we are not using include `database` and `file`.
 
 For more information on MDS see the dedicated documentation at <mds-docs-more-coming-soon>
 
-Commands is a pull based api so we can request data based on our application lifecycle.
-Events is a push based api (websocket) so our app can subscribe to minima events as they occur.
+**Commands** is a pull based api so we can request data based on our application lifecycle.
+    
+**Events** is a push based api (websocket) so our app can subscribe to Minima events as they occur.
 
 ## Blockchain data we request from the Minima DApp System
 
@@ -51,7 +61,7 @@ Functions used are
 -   commands.txpow_txpowid(txpowid)
 -   commands.txpow_block(blockNumber)
 
-These return a TxPow object
+These return a TxPow object.
 
 ## Minima events we listen for
 
