@@ -31,7 +31,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "build-zip": "npm run build && zip -r build.zip build",
+        "build-zip": "npm run build && cd build && zip -r build.zip . && mv build.zip ../",
         "reload": "rm -r node_modules/ && npm i && npm run start"
     },
     "homepage": ".",
