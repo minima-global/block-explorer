@@ -50,11 +50,6 @@ export default function Layout() {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar variant="dense" sx={{ bgcolor: 'text.secondary' }}>
-                    <Grid container justifyContent="center">
-                        <Grid item>Block</Grid>
-                    </Grid>
-                </Toolbar>
                 <Toolbar variant="dense">
                     {isOnBlockDetailPage(location.pathname) ? (
                         <IconButton sx={{ pl: 0 }} color="inherit" onClick={onBackArrowClicked}>

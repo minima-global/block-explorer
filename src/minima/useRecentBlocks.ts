@@ -87,7 +87,7 @@ const useRecentBlocks = () => {
                         block: parseInt(txpow.header.block),
                         hash: txpow.txpowid,
                         transactions: txpow.body.txnlist.length,
-                        relayed: new Date(txpow.header.date),
+                        relayed: new Date(parseInt(txpow.header.timemilli)),
                         parent: txpow.header.superparents[0].parent,
                         txpowid: txpow.txpowid,
                     };

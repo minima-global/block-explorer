@@ -28,12 +28,13 @@ const printDate = (myDate: Date) => {
 };
 
 const recentBlockColumns: GridColDef[] = [
-    { field: 'block', headerName: 'Block', flex: 100 },
-    { field: 'hash', headerName: 'Hash', flex: 100 },
-    { field: 'transactions', headerName: 'TKNS', flex: 100, align: 'center', headerAlign: 'center' },
+    { field: 'block', headerName: 'Block', sortable: false, flex: 100 },
+    { field: 'hash', headerName: 'Hash', sortable: false, flex: 100 },
+    { field: 'transactions', headerName: 'TKNS', sortable: false, flex: 100, align: 'center', headerAlign: 'center' },
     {
         field: 'relayed',
         headerName: 'Relayed',
+        sortable: false,
         flex: 100,
         renderCell: (params: GridRenderCellParams<Date>) => <>{printDate(params.value)}</>,
     },
@@ -141,6 +142,7 @@ const Block = () => {
                     {...rowsState}
                     paginationMode="server"
                     density="compact"
+                    disableColumnMenu
                     components={{
                         Pagination: CustomPagination,
                         LoadingOverlay: CustomLoadingOverlay,

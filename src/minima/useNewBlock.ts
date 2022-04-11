@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Events, Txpow, commands, Status } from '@minima-global/mds-api';
+import { ws, Txpow, commands, Status } from '@minima-global/mds-api';
 
 const useNewBlock = () => {
     const [newBlock, setNewBlock] = useState<Txpow | null>(null);
-    const websocket = useRef<Events | null>(null);
+    const websocket = useRef<WebSocket | null>(null);
 
     useEffect(() => {
         // get the top block while we wait for the first NEWBLOCK event
@@ -15,18 +15,23 @@ const useNewBlock = () => {
         });
 
         // connect to the websocket and wait for NEWBLOCK events
-        websocket.current = new Events();
-        websocket.current.ws.onmessage = (message) => {
-            const res = JSON.parse(message.data);
-            const event = res.event;
-            const data = res.data;
-            if (event === 'NEWBLOCK') {
-                setNewBlock(data.txpow);
-            }
-        };
+        if (ws) {
+            websocket.current = ws;
+            websocket.current.onmessage = (message: any) => {
+                const res = JSON.parse(message.data);
+                const event = res.event;
+                const data = res.data;
+                if (event === 'NEWBLOCK') {
+                    setNewBlock(data.txpow);
+                }
+            };
+        } else {
+            console.error('No websocket connection');
+        }
+
         return () => {
             if (websocket.current) {
-                websocket.current.ws.close();
+                websocket.current.close();
             }
         };
     }, []);

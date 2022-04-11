@@ -96,3 +96,8 @@ code {
         /* Modern Browsers */ url('./theme/fonts/manrope-v11-latin-800.ttf') format('truetype'),
         /* Safari, Android, iOS */ url('./theme/fonts/manrope-v11-latin-800.svg#Manrope') format('svg'); /* Legacy iOS */
 }
+
+#applogo {
+    width: 32px;
+    height: 32px;
+}
