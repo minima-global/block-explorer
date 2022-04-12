@@ -21,7 +21,7 @@ export interface RowsState {
 const PAGE_SIZE = 10;
 
 // minima stores 1000 blocks
-const MINIMA_TOTAL_ROWS = 1000;
+const MINIMA_MAX_ROWS = 1000;
 
 const useRecentBlocks = () => {
     const newBlock = useNewBlock();
@@ -224,6 +224,7 @@ const useRecentBlocks = () => {
             for (let i = topBlock; i > topBlock - PAGE_SIZE; i--) {
                 pageBlockNumbers.push(i);
             }
+            pageBlockNumbers = pageBlockNumbers.filter((blockNumber) => blockNumber > 0);
 
             setRowsState((prev) => ({ ...prev, loading: true }));
             getRecentBlocksByBlockNumber(pageBlockNumbers).then(
@@ -232,7 +233,7 @@ const useRecentBlocks = () => {
                         ...prev,
                         loading: false,
                         rows: recentBlocks,
-                        rowCount: MINIMA_TOTAL_ROWS, // use artificial number of blocks
+                        rowCount: Math.min(MINIMA_MAX_ROWS, latestBlockNumber), // use max number of blocks (or less if from genesis)
                     }));
                 },
                 (err: any) => {
