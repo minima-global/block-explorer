@@ -23,6 +23,27 @@ const PAGE_SIZE = 10;
 // minima stores 1000 blocks
 const MINIMA_MAX_ROWS = 1000;
 
+
+const buildRecentBlockFromTxpow = (txpow: any): RecentBlock => {
+    // add one to transaction list if the block is a transaction
+    let transactions = 0;
+    if (txpow.istransaction) {
+        console.log('found transaction in block ' + parseInt(txpow.header.block), txpow.body.txnlist.length + 1);
+        transactions = txpow.body.txnlist.length + 1;
+    } else {
+        transactions = txpow.body.txnlist.length;
+    }
+
+    return {
+        block: parseInt(txpow.header.block),
+        hash: txpow.txpowid,
+        transactions,
+        relayed: new Date(parseInt(txpow.header.timemilli)),
+        parent: txpow.header.superparents[0].parent,
+        txpowid: txpow.txpowid,
+    };
+};
+
 const useRecentBlocks = () => {
     const newBlock = useNewBlock();
     const [searchString, setSearchString] = useState<string>('');
@@ -63,14 +84,7 @@ const useRecentBlocks = () => {
      */
     const getRecentBlockByTxpowId: (txpowid: string) => Promise<RecentBlock> = useCallback((txpowid: string) => {
         return commands.txpow_txpowid(txpowid).then((txpow: any) => {
-            return {
-                block: parseInt(txpow.header.block),
-                hash: txpow.txpowid,
-                transactions: txpow.body.txnlist.length,
-                relayed: new Date(txpow.header.date),
-                parent: txpow.header.superparents[0].parent,
-                txpowid: txpow.txpowid,
-            };
+            return buildRecentBlockFromTxpow(txpow);
         });
     }, []);
 
@@ -83,14 +97,7 @@ const useRecentBlocks = () => {
             const txpowPromises = blockNumbers.map((blockNumber) => commands.txpow_block(blockNumber));
             return Promise.all(txpowPromises).then((txpows) => {
                 const recentBlocks: RecentBlock[] = txpows.map((txpow: any) => {
-                    return {
-                        block: parseInt(txpow.header.block),
-                        hash: txpow.txpowid,
-                        transactions: txpow.body.txnlist.length,
-                        relayed: new Date(parseInt(txpow.header.timemilli)),
-                        parent: txpow.header.superparents[0].parent,
-                        txpowid: txpow.txpowid,
-                    };
+                    return buildRecentBlockFromTxpow(txpow);
                 });
                 return recentBlocks;
             });
