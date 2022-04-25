@@ -111,6 +111,7 @@ const BlockDetail = () => {
                                 <DisplayItem heading="Index" text={i.toString()} />
                                 <DisplayItem heading="Coin ID" text={input.coinid} />
                                 <DisplayItem heading="Address" text={input.address} />
+                                <DisplayItem heading="MiniAddress" text={input.miniaddress} />
                                 <DisplayItem heading="Token Id" text={input.tokenid} />
                                 <DisplayItem heading="Amount" text={input.amount} />
                                 <DisplayItem heading="Token Amount" text={input.tokenamount} />
