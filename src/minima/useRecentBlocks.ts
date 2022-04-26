@@ -61,7 +61,9 @@ const useRecentBlocks = () => {
      * @returns {boolean} true if it is an address, false otherwise
      */
     const isAddress = useCallback((address: string) => {
-        return address.startsWith('0x') && address.length === 66;
+        const startsCorrect = address.startsWith('0x') || address.startsWith('Mx');
+        const lengthCorrect = address.length > 58 && address.length < 67;
+        return startsCorrect && lengthCorrect;
     }, []);
 
     /**
@@ -113,6 +115,7 @@ const useRecentBlocks = () => {
     const getRecentBlocksByAddress: (address: string) => Promise<RecentBlock[]> = useCallback(
         async (address: string) => {
             const txpows: any[] = await commands.txpow_address(address);
+            console.log('address search results', txpows);
             const uniqueTxpows = removeDuplicates(txpows); // some are blocks some are transactions
             // get all the unique block numbers
             let blockNumbers: Set<number> = new Set();
