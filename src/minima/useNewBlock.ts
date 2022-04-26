@@ -21,7 +21,9 @@ const useNewBlock = () => {
                 const res = JSON.parse(message.data);
                 const event = res.event;
                 const data = res.data;
+                console.log(`NEW EVENT MESSAGE! ${event}`);
                 if (event === 'NEWBLOCK') {
+                    console.log(`NEWBLOCK EVENT, ADD BLOCK`, data.txpow);
                     setNewBlock(data.txpow);
                 }
             };
