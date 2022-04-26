@@ -3,7 +3,6 @@ import { ws, Txpow, commands, Status } from '@minima-global/mds-api';
 
 const useNewBlock = () => {
     const [newBlock, setNewBlock] = useState<Txpow | null>(null);
-    const websocket = useRef<WebSocket | null>(null);
 
     useEffect(() => {
         // get the top block while we wait for the first NEWBLOCK event
@@ -16,8 +15,7 @@ const useNewBlock = () => {
 
         // connect to the websocket and wait for NEWBLOCK events
         if (ws) {
-            websocket.current = ws;
-            websocket.current.onmessage = (message: any) => {
+            ws.onmessage = (message: any) => {
                 const res = JSON.parse(message.data);
                 const event = res.event;
                 const data = res.data;
@@ -32,10 +30,7 @@ const useNewBlock = () => {
         }
 
         return () => {
-            if (websocket.current) {
-                console.log('****************CLOSING WEBSOCKET***************');
-                websocket.current.close();
-            }
+            console.log('destroying useNewBlock hook');
         };
     }, []);
 
