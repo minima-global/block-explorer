@@ -33,6 +33,7 @@ const useNewBlock = () => {
 
         return () => {
             if (websocket.current) {
+                console.log('****************CLOSING WEBSOCKET***************');
                 websocket.current.close();
             }
         };
