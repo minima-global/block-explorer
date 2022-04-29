@@ -32,7 +32,7 @@ const useNewBlock = () => {
         return () => {
             console.log('destroying useNewBlock hook');
         };
-    }, []);
+    }, [commands, ws]);
 
     return newBlock;
 };
