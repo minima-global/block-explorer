@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { commands } from '@minima-global/mds-api';
 import { GridRowModel } from '@mui/x-data-grid';
 import useNewBlock from './useNewBlock';
+
+import { txpow_txpowid, txpow_block, txpow_address } from './mds-api';
 
 interface RecentBlock {
     block: number;
@@ -85,8 +86,8 @@ const useRecentBlocks = () => {
      * @returns {promise<RecentBlock>} a single RecentBlock object
      */
     const getRecentBlockByTxpowId: (txpowid: string) => Promise<RecentBlock> = useCallback((txpowid: string) => {
-        return commands.txpow_txpowid(txpowid).then((txpow: any) => {
-            return buildRecentBlockFromTxpow(txpow);
+        return txpow_txpowid(txpowid).then((res: any) => {
+            return buildRecentBlockFromTxpow(res.response);
         });
     }, []);
 
@@ -96,10 +97,10 @@ const useRecentBlocks = () => {
      */
     const getRecentBlocksByBlockNumber: (b: number[]) => Promise<RecentBlock[]> = useCallback(
         async (blockNumbers: number[]) => {
-            const txpowPromises = blockNumbers.map((blockNumber) => commands.txpow_block(blockNumber));
-            return Promise.all(txpowPromises).then((txpows) => {
+            const txpowPromises: any = blockNumbers.map((blockNumber) => txpow_block(blockNumber));
+            return Promise.all(txpowPromises).then((txpows: any) => {
                 const recentBlocks: RecentBlock[] = txpows.map((txpow: any) => {
-                    return buildRecentBlockFromTxpow(txpow);
+                    return buildRecentBlockFromTxpow(txpow.response);
                 });
                 return recentBlocks;
             });
@@ -114,13 +115,13 @@ const useRecentBlocks = () => {
      */
     const getRecentBlocksByAddress: (address: string) => Promise<RecentBlock[]> = useCallback(
         async (address: string) => {
-            const txpows: any[] = await commands.txpow_address(address);
+            const txpows: any = await txpow_address(address);
             console.log('address search results', txpows);
             const uniqueTxpows = removeDuplicates(txpows); // some are blocks some are transactions
             // get all the unique block numbers
             let blockNumbers: Set<number> = new Set();
-            uniqueTxpows.forEach((txpow: any) => {
-                blockNumbers.add(parseInt(txpow.header.block));
+            uniqueTxpows.forEach((res: any) => {
+                blockNumbers.add(parseInt(res.response.header.block));
             });
             const blockNumbersArray: number[] = Array.from(blockNumbers);
             return getRecentBlocksByBlockNumber(blockNumbersArray);

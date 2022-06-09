@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { commands, Txpow } from '@minima-global/mds-api';
 import { Box, Typography } from '@mui/material';
 import DisplayItem from './DisplayItem';
 import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
 import BlockTabs from './BlockTabs';
+
+import { txpow_txpowid } from '../../minima/mds-api';
 
 const BlockDetail = () => {
     const blocksContextData = useRecentBlocksContext();
@@ -16,10 +17,10 @@ const BlockDetail = () => {
 
     useEffect(() => {
         if (routerParams.txpowid) {
-            commands.txpow_txpowid(routerParams.txpowid).then(
-                (txpow: Txpow) => {
-                    setTxpow(txpow);
-                    blocksContextData.setVisibleBlockNumber(parseInt(txpow.header.block));
+            txpow_txpowid(routerParams.txpowid).then(
+                (res: any) => {
+                    setTxpow(res.response);
+                    blocksContextData.setVisibleBlockNumber(parseInt(res.response.header.block));
                 },
                 (err: any) => {
                     console.error(err);
