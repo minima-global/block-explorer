@@ -85,14 +85,27 @@ theme = createTheme(theme, {
                 // Name of the slot
                 root: {
                     // Some CSS
+                    backgroundColor: '#F4F4F5',
+                    borderRadius: '8px',
+                    padding: '0px 16px',
+                    border: '0.5px solid #EDEDED',
+                    color: '#16181C',
                     fontSize: '1rem',
+                    fontWeight: 700,
+                    '&:hover': {
+                        boxShadow: 'none',
+                        opacity: 1,
+                        color: '#fff',
+                        backgroundColor: '#16181C',
+                        
+                    }
                 },
             },
         },
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    backgroundColor: theme.palette.text.primary,
+                    backgroundColor: '#16181C',
                 },
             },
         },
@@ -109,18 +122,19 @@ theme = createTheme(theme, {
                     backgroundColor: 'rgba(255, 255, 255, 0.5)',
                     borderRadius: 8,
                     input: {
-                        paddingLeft: 16,
                         borderRadius: 8,
                         fontWeight: '400',
-                        fontSize: '1rem',
+                        fontSize: 'calc(8px + 1vmin)',
                         '&::placeholder': {
-                            color: '#91919D',
-                            fontSize: '1rem',
-                            fontWeight: '100',
+                            color: '#000',
+                            fontSize: 'calc(8px + 1vmin)',
+                            fontWeight: '400',
+                            opacity: 0.5
                         },
                         '&:focus': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                        },
+                            fontWeight: 500
+                        }
+                        
                     },
                 },
             },
@@ -139,6 +153,14 @@ theme = createTheme(theme, {
                 },
             },
         },
+        MuiBox: {
+            styleOverrides: {
+                root: {
+                    zIndex: 0,
+                    border: '0.5px solid #EDEDED'
+                }
+            }
+        }
     },
 });
 

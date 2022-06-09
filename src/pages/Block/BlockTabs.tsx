@@ -19,7 +19,7 @@ const BlockTabs = ({ tabNumber, setTabNumber }: IProps) => {
         font-size: 14px;
         line-height: 21px;
 
-        background: #317aff;
+        background: #EDEDED;
         border-radius: 6px;
         width: 100%;
 
@@ -37,25 +37,24 @@ const BlockTabs = ({ tabNumber, setTabNumber }: IProps) => {
         padding: 12px 16px;
         margin: 6px 6px;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
 
         display: flex;
         justify-content: center;
 
+
         &:hover {
-            color: #317aff;
             cursor: pointer;
         }
 
         &.${tabUnstyledClasses.selected} {
             color: #ffffff;
-            background: #317aff;
+            background: #16181C;
             border-radius: 6px;
         }
     `;
 
     const TabsList = styled(TabsListUnstyled)`
-        min-width: 320px;
         background-color: rgba(255, 255, 255, 0.5);
         border-radius: 8px;
         margin-bottom: 16px;
@@ -69,11 +68,10 @@ const BlockTabs = ({ tabNumber, setTabNumber }: IProps) => {
         <Box
             sx={{
                 bgcolor: 'rgba(255, 255, 255, 0.5)',
-                boxShadow: 1,
+                boxShadow: 0,
                 borderRadius: 1,
                 mt: 4,
                 mb: 2,
-                minWidth: 300,
             }}
         >
             <TabsUnstyled value={tabNumber} onChange={onTabSelected}>

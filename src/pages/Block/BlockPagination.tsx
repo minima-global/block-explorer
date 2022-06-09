@@ -60,7 +60,14 @@ const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
                                 type="button"
                                 {...item}
                                 variant={selected ? 'contained' : undefined}
-                                sx={{ borderRadius: 10, minWidth: 40 }}
+                                sx={{
+                                    borderRadius: '8px',
+                                    textTransform: 'capitalize',
+                                    fontSize: 'calc(16px + 0.5vmin)!important',
+                                    boxShadow: 0,
+                                    backgroundColor: selected ? '#16181C' : null,
+                                    color: selected ? '#fff' : null,
+                                }}
                                 size="small"
                             >
                                 {page}
@@ -68,13 +75,13 @@ const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
                         );
                     } else if (type === 'first') {
                         children = (
-                            <IconButton aria-label="delete" color="primary" {...item} sx={{ mr: 0 }}>
+                            <IconButton aria-label="delete" {...item} sx={{ mr: 0, color: '#16181C' }}>
                                 <KeyboardDoubleArrowLeft />
                             </IconButton>
                         );
                     } else if (type === 'last') {
                         children = (
-                            <IconButton aria-label="delete" color="primary" {...item} sx={{ ml: 0 }}>
+                            <IconButton aria-label="delete" {...item} sx={{ ml: 0, color: '#16181C' }}>
                                 <KeyboardDoubleArrowRight />
                             </IconButton>
                         );
@@ -91,7 +98,12 @@ const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
 
                     if (type === 'next' || type === 'previous') {
                         children = (
-                            <Button type="button" {...item} variant="contained" sx={{ mt: 1, ml: 1, width: 100 }}>
+                            <Button
+                                type="button"
+                                {...item}
+                                variant="contained"
+                                sx={{ mt: 1, ml: 1, width: 100, textTransform: 'capitalize', boxShadow: 0 }}
+                            >
                                 {type}
                             </Button>
                         );

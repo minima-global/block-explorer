@@ -92,7 +92,7 @@ const Block = () => {
             <Box
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
-                    boxShadow: 1,
+                    boxShadow: 0,
                     borderRadius: 1.5,
                     p: 2,
                     mt: 4,
@@ -100,12 +100,11 @@ const Block = () => {
                     fontSize: 14,
                 }}
             >
-                <Typography variant="h4">Discover the heaviest leaf in the chain and traverse through.</Typography>
                 <form onSubmit={onSearchClicked} id="search-form">
                     <TextField
                         value={searchText}
                         onChange={onSearchFieldChange}
-                        sx={{ mt: 4 }}
+                        placeholder="Search by id, address or height"
                         fullWidth
                         InputProps={{
                             startAdornment: (
@@ -126,7 +125,7 @@ const Block = () => {
             <Box
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
-                    boxShadow: 1,
+                    boxShadow: 0,
                     borderRadius: 1.5,
                     mt: 2,
                     mb: 2,

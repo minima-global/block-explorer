@@ -101,3 +101,14 @@ code {
     width: 32px;
     height: 32px;
 }
+
+
+.MuiToolbar-root {
+    padding: 0!important;
+}
+
+@media screen and (max-width: 900px) {
+    .MuiToolbar-root, .main-layout {
+        padding: 0px 16px!important;
+    }
+}

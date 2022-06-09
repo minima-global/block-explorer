@@ -34,12 +34,11 @@ const BlockDetail = () => {
             <Box
                 sx={{
                     bgcolor: 'rgba(255, 255, 255, 0.5)',
-                    boxShadow: 1,
+                    boxShadow: 0,
                     borderRadius: 1.5,
                     p: 2,
                     mt: 2,
                     mb: 2,
-                    minWidth: 300,
                 }}
             >
                 {children}
@@ -99,7 +98,11 @@ const BlockDetail = () => {
     // recieves an array of inputs or outputs and creates the display components
     const InOut = ({ inout }: any) => {
         if (inout.length === 0) {
-            return <></>;
+            return (
+                <Typography sx={{ textAlign: 'center', fontSize: 'calc(12px + 0.5vmin)' }} variant="body1">
+                    TXPOW is not a transaction.
+                </Typography>
+            );
         } else {
             return (
                 <>

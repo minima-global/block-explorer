@@ -45,26 +45,38 @@ export default function Layout() {
         <>
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    {isOnBlockDetailPage(location.pathname) ? (
-                        <IconButton sx={{ pl: 0 }} color="inherit" onClick={onBackArrowClicked}>
-                            <ArrowBackIcon />
-                        </IconButton>
-                    ) : null}
+                    <Grid container>
+                        <Grid item xs={0} md={2}></Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            md={8}
+                            sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
+                        >
+                            {isOnBlockDetailPage(location.pathname) ? (
+                                <IconButton sx={{ pl: 0 }} color="inherit" onClick={onBackArrowClicked}>
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            ) : null}
 
-                    <Typography sx={{ mb: 0.25 }} variant="h4">
-                        {getPageName()}
-                    </Typography>
+                            <Typography sx={{ mb: 0.25 }} variant="h4">
+                                {getPageName()}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={0} md={2}></Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
 
-            <Box
-                component="main"
-                // sx={{
-                //     width: { sm: `calc(100% - ${drawerWidth}px)` },
-                //     ml: { sm: `${drawerWidth}px` },
-                // }}
-            >
-                <Container maxWidth="md">{myRoutes}</Container>
+            <Box component="main">
+                <Grid container>
+                    <Grid item xs={0} md={2} />
+                    <Grid item xs={12} md={8} className="main-layout">
+                        {myRoutes}
+                    </Grid>
+                    <Grid item xs={0} md={2} />
+                </Grid>
+                {/* <Container maxWidth="md">{myRoutes}</Container> */}
             </Box>
         </>
     );

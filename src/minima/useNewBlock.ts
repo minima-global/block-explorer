@@ -10,16 +10,23 @@ const useNewBlock = () => {
 
     useEffect(() => {
         // get the top block while we wait for the first NEWBLOCK event
-        callStatus().then((res: any) => {
-            const topBlock = res.response.chain.block;
-            txpow_block(topBlock).then((resp: any) => {
-                setNewBlock(resp.response);
-            });
-        });
-
+        
         MDS.init((msg: any) => {
+            
+            
             const evt = msg.event;
             const data = msg.data;
+            
+            if(evt === 'inited') {
+                callStatus().then((res: any) => {
+                    const topBlock = res.response.chain.block;
+                    txpow_block(topBlock).then((resp: any) => {
+                        setNewBlock(resp.response);
+                    });
+                });
+            }
+            
+            
             if (evt === 'NEWBLOCK') {
                 console.log(`NEWBLOCK EVENT, ADD BLOCK`, data.txpow);
                 setNewBlock(data.txpow);                
