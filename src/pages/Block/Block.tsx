@@ -89,39 +89,35 @@ const Block = () => {
 
     return (
         <>
-            <Box
-                sx={{
-                    bgcolor: 'rgba(255, 255, 255, 0.5)',
-                    boxShadow: 1,
-                    borderRadius: 1.5,
-                    p: 2,
-                    mt: 4,
-                    minWidth: 300,
-                    fontSize: 14,
-                }}
-            >
-                <Typography variant="h4">Discover the heaviest leaf in the chain and traverse through.</Typography>
-                <form onSubmit={onSearchClicked} id="search-form">
-                    <TextField
-                        value={searchText}
-                        onChange={onSearchFieldChange}
-                        sx={{ mt: 4 }}
-                        fullWidth
-                        InputProps={{
-                            startAdornment: (
-                                <IconButton onClick={onSearchClicked} type="submit">
-                                    <SearchOutlined />
-                                </IconButton>
-                            ),
-                            endAdornment: (
-                                <IconButton onClick={onClearSearchClicked}>
-                                    <Clear />
-                                </IconButton>
-                            ),
-                        }}
-                    />
-                </form>
-            </Box>
+            <form onSubmit={onSearchClicked} id="search-form">
+                <TextField
+                    value={searchText}
+                    onChange={onSearchFieldChange}
+                    placeholder="Search by id, address or height"
+                    sx={{
+                        bgcolor: 'rgba(255, 255, 255, 0.5)',
+                        boxShadow: 1.5,
+                        borderRadius: 1.5,
+                        // p: 2,
+                        mt: 4,
+                        // minWidth: 300,
+                        // fontSize: 14,
+                    }}
+                    fullWidth
+                    InputProps={{
+                        startAdornment: (
+                            <IconButton onClick={onSearchClicked} type="submit">
+                                <SearchOutlined />
+                            </IconButton>
+                        ),
+                        endAdornment: (
+                            <IconButton onClick={onClearSearchClicked}>
+                                <Clear />
+                            </IconButton>
+                        ),
+                    }}
+                />
+            </form>
 
             <Box
                 sx={{
