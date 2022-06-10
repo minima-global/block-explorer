@@ -21,7 +21,7 @@ const DisplayItem = ({ heading, text, link }: Iprops) => {
             }}
         >
             <Typography variant="h6">{heading}</Typography>
-            <Box sx={{ overflowX: 'hidden', textOverflow: 'ellipsis', mt: 0.5 }}>
+            <Box sx={{ overflow: 'hidden', textOverflow: 'ellipsis', mt: 0.5 }}>
                 {link ? <Link to={link}>{text}</Link> : text}
             </Box>
         </Box>
