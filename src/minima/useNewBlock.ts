@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { Txpow, commands, Status } from '@minima-global/mds-api';
-import { events } from './events';
+import { useState, useEffect } from 'react';
+import { commands, events } from '../mds';
 
 const useNewBlock = () => {
     const [newBlock, setNewBlock] = useState<Txpow | null>(null);
@@ -14,9 +13,11 @@ const useNewBlock = () => {
             });
         });
 
-        events.onNewBlock((data) => {
-            console.log(`NEWBLOCK EVENT, ADD BLOCK`, data.data.txpow);
-            setNewBlock(data.data.txpow);
+        // register custom callback for new block events
+        events.onNewBlock((newBlockData) => {
+            const txpow = newBlockData.txpow
+            console.log(`NEWBLOCK EVENT, ADD BLOCK`, txpow);
+            setNewBlock(txpow);
         })
 
     }, [commands, events]);

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { commands, Txpow } from '@minima-global/mds-api';
 import { Box, Typography } from '@mui/material';
 import DisplayItem from './DisplayItem';
 import { useRecentBlocksContext } from '../../minima/RecentBlocksContext';
 import BlockTabs from './BlockTabs';
+import { commands } from './../../mds'
 
 const BlockDetail = () => {
     const blocksContextData = useRecentBlocksContext();

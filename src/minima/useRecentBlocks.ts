@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { commands } from '@minima-global/mds-api';
+import { commands, events } from '../mds';
 import { GridRowModel } from '@mui/x-data-grid';
 import useNewBlock from './useNewBlock';
 
@@ -114,7 +114,7 @@ const useRecentBlocks = () => {
      */
     const getRecentBlocksByAddress: (address: string) => Promise<RecentBlock[]> = useCallback(
         async (address: string) => {
-            const txpows: any[] = await commands.txpow_address(address);
+            const txpows = await commands.txpow_address(address);
             console.log('address search results', txpows);
             const uniqueTxpows = removeDuplicates(txpows); // some are blocks some are transactions
             // get all the unique block numbers
@@ -221,6 +221,10 @@ const useRecentBlocks = () => {
      * @returns {void}
      */
     useEffect(() => {
+        console.log('***** useRecentBlock ********')
+        events.onMinimaLog((data) => {
+            console.log('MINIMA LOG CUSTOM', data.message)
+        })
         if (searchString === '') {
             // do nothing on initial state
             if (newBlock == null) {
