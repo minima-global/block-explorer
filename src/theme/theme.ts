@@ -114,9 +114,9 @@ theme = createTheme(theme, {
                         fontWeight: '400',
                         fontSize: '1rem',
                         '&::placeholder': {
-                            color: '#91919D',
+                            color: '#0D0E10',
                             fontSize: '1rem',
-                            fontWeight: '100',
+                            fontWeight: '400',
                         },
                         '&:focus': {
                             backgroundColor: 'rgba(255, 255, 255, 0.8)',
