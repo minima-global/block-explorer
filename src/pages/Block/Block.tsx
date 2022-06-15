@@ -29,13 +29,13 @@ const printDate = (myDate: Date) => {
 
 const recentBlockColumns: GridColDef[] = [
     { field: 'block', headerName: 'Block', sortable: false, flex: 100 },
-    { field: 'hash', headerName: 'Hash', sortable: false, flex: 100 },
+    { field: 'hash', headerName: 'Hash', sortable: false, flex: 200 },
     { field: 'transactions', headerName: 'TKNS', sortable: false, flex: 100, align: 'center', headerAlign: 'center' },
     {
         field: 'relayed',
         headerName: 'Relayed',
         sortable: false,
-        flex: 100,
+        flex: 200,
         renderCell: (params: GridRenderCellParams<Date>) => <>{printDate(params.value)}</>,
     },
 ];
