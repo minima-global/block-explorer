@@ -8,7 +8,7 @@ let theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#317aff',
+            main: '#363a3f',
         },
         secondary: {
             main: '#ff512f',

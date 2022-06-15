@@ -140,6 +140,7 @@ const Block = () => {
                         // Pagination: CustomPagination,
                         LoadingOverlay: CustomLoadingOverlay,
                     }}
+                    hideFooter={true}
                 />
             </Box>
             <BlockPagination rowsState={rowsState} pageSize={pageSize} setRowsState={setRowsState} />

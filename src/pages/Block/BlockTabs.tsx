@@ -19,7 +19,7 @@ const BlockTabs = ({ tabNumber, setTabNumber }: IProps) => {
         font-size: 14px;
         line-height: 21px;
 
-        background: #317aff;
+        background: rgb(54, 58, 63);
         border-radius: 6px;
         width: 100%;
 
@@ -43,13 +43,13 @@ const BlockTabs = ({ tabNumber, setTabNumber }: IProps) => {
         justify-content: center;
 
         &:hover {
-            color: #317aff;
+            color: rgb(54, 58, 63);
             cursor: pointer;
         }
 
         &.${tabUnstyledClasses.selected} {
             color: #ffffff;
-            background: #317aff;
+            background: rgb(54, 58, 63);
             border-radius: 6px;
         }
     `;
