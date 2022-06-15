@@ -3,9 +3,6 @@
 interface InitResponse {
     event: 'inited';
 }
-function isInitResponse(obj: any): obj is InitResponse {
-    return obj.event === 'inited';
-}
 
 interface MiningResponse {
     event: 'MINING';
@@ -15,9 +12,6 @@ interface MiningData {
     mining: boolean;
     txpow: Txpow;
 }
-function isMiningResponse(obj: any): obj is MiningResponse {
-    return obj.event === 'MINING';
-}
 
 interface NewBlockResponse {
     event: 'NEWBLOCK';
@@ -25,9 +19,6 @@ interface NewBlockResponse {
 }
 interface NewBlockData {
     txpow: Txpow;
-}
-function isNewBlockResponse(obj: any): obj is NewBlockResponse {
-    return obj.event === 'NEWBLOCK';
 }
 
 interface MinimaLogResponse {
@@ -37,9 +28,6 @@ interface MinimaLogResponse {
 interface MinimaLogData {
     message: string;
 }
-function isMinimaLogResponse(obj: any): obj is MinimaLogResponse {
-    return obj.event === 'MINIMALOG';
-}
 
 interface NewBalanceResponse {
     event: 'NEWBALANCE';
@@ -47,9 +35,6 @@ interface NewBalanceResponse {
 }
 interface NewBalanceData {
     // TODO
-}
-function isNewBalanceResponse(obj: any): obj is NewBalanceResponse {
-    return obj.event === 'NEWBALANCE';
 }
 
 interface MaximaResponse {
@@ -65,9 +50,6 @@ interface MaximaData {
     time: string;
     timemilli: number;
     to: string;
-}
-function isMaximaResponse(obj: any): obj is MaximaResponse {
-    return obj.event === 'MAXIMA';
 }
 
 
