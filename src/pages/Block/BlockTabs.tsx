@@ -15,16 +15,13 @@ const BlockTabs = ({ tabNumber, setTabNumber }: IProps) => {
     };
 
     const Tab = styled(TabUnstyled)`
-        font-weight: 800;
-        font-size: 14px;
-        line-height: 21px;
-
         background: rgb(54, 58, 63);
         border-radius: 6px;
         width: 100%;
 
         color: #363A3F
         cursor: pointer;
+        font-family: Manrope;
         font-style: normal;
         font-weight: 800;
         font-size: 14px;
