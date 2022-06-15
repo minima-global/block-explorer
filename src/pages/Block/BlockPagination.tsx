@@ -14,8 +14,7 @@ interface IProps {
 }
 
 const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
-    console.log('rowsState', rowsState)
-    const currentPage = rowsState.page
+    const currentPage = rowsState.page;
     const pageCount = Math.max(1, Math.ceil(rowsState.rowCount / pageSize));
     const prevDisabled = currentPage <= 0;
     const nextDisabled = currentPage + 1 >= pageCount;
@@ -39,7 +38,7 @@ const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
                 Next
             </Button>
         </Box>
-    );   
+    );
 };
 
 export default BlockPagination;

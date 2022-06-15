@@ -221,10 +221,6 @@ const useRecentBlocks = () => {
      * @returns {void}
      */
     useEffect(() => {
-        console.log('***** useRecentBlock ********')
-        events.onMinimaLog((data) => {
-            console.log('MINIMA LOG CUSTOM', data.message)
-        })
         if (searchString === '') {
             // do nothing on initial state
             if (newBlock == null) {
