@@ -98,10 +98,7 @@ const Block = () => {
                         bgcolor: 'rgba(255, 255, 255, 0.5)',
                         boxShadow: 1.5,
                         borderRadius: 1.5,
-                        // p: 2,
                         mt: 4,
-                        // minWidth: 300,
-                        // fontSize: 14,
                     }}
                     fullWidth
                     InputProps={{
@@ -126,7 +123,7 @@ const Block = () => {
                     borderRadius: 1.5,
                     mt: 2,
                     mb: 2,
-                    height: 600,
+                    height: 450,
                     width: '100%',
                     overflow: 'hidden',
                 }}
@@ -140,11 +137,12 @@ const Block = () => {
                     density="compact"
                     disableColumnMenu
                     components={{
-                        Pagination: CustomPagination,
+                        // Pagination: CustomPagination,
                         LoadingOverlay: CustomLoadingOverlay,
                     }}
                 />
             </Box>
+            <BlockPagination rowsState={rowsState} pageSize={pageSize} setRowsState={setRowsState} />
         </>
     );
 };

@@ -1,10 +1,11 @@
-import { Button } from '@mui/material';
-
+import { Button, Box, MenuItem } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { IconButton } from '@mui/material';
 import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import usePagination, { UsePaginationItem } from '@mui/material/usePagination';
 import { styled } from '@mui/material/styles';
 import { RowsState } from './../../minima/useRecentBlocks';
+import { useState } from 'react'
 
 interface IProps {
     rowsState: RowsState;
@@ -13,95 +14,70 @@ interface IProps {
 }
 
 const BlockPagination = ({ rowsState, pageSize, setRowsState }: IProps) => {
-    const List = styled('ul')({
-        listStyle: 'none',
-        padding: 0,
-        marginTop: 0,
-        marginBottom: 10,
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-    });
+    console.log('rowsState', rowsState)
+    const currentPage = rowsState.page
     const pageCount = Math.max(1, Math.ceil(rowsState.rowCount / pageSize));
-    const pagination = usePagination({
-        count: pageCount,
-        page: rowsState.page + 1,
-        showFirstButton: true,
-        showLastButton: true,
-        onChange: (event, value) => {
-            setRowsState((prev: RowsState) => ({ ...prev, page: value - 1 }));
-        },
-    });
-    const items = pagination.items;
+    const prevDisabled = currentPage <= 1
+    const nextDisabled = (currentPage + 1) >= pageCount
 
-    const topRowItems: UsePaginationItem[] = [];
-    const bottomRowItems: UsePaginationItem[] = [];
+    const onPreviousClicked = () => {
+        const newPage = currentPage - 1
+        setRowsState((prev: RowsState) => ({ ...prev, page: newPage }));
+    }
 
-    items.forEach((item) => {
-        if (item.type === 'next' || item.type === 'previous') {
-            bottomRowItems.push(item);
-        } else {
-            topRowItems.push(item);
+    const onNextClicked = () => {
+        const newPage = currentPage + 1
+        setRowsState((prev: RowsState) => ({ ...prev, page: newPage }));
+    }
+
+    const PageDropdown = () => {
+        const createValueString = (index: number) => {
+            return 'Page ' + (index + 1)
         }
-    });
+        const menuItems = Array.from({length: pageCount}, (v, index) => ({value: index, text: createValueString(index)}))
+        const onPageSelected = (event: SelectChangeEvent) => {
+            const newPageNumber = event.target.value
+            console.log('newPageNumber', newPageNumber)
+            setRowsState((prev: RowsState) => ({ ...prev, page: parseInt(newPageNumber) }));
+        }
+        return (
+            <Select value={createValueString(pageCount)} onChange={onPageSelected}>
+                {menuItems.map((menuItem) => (
+                    <MenuItem value={menuItem.value.toString()}>{menuItem.text}</MenuItem>
+                ))}
+            </Select>
+        )
+    }
+
+    const [age, setAge] = useState('');
+
+    console.log('age', age)
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setAge(event.target.value);
+  };
 
     return (
-        <nav style={{ width: '100%' }}>
-            <List>
-                {topRowItems.map(({ page, type, selected, ...item }, index) => {
-                    let children = null;
-
-                    if (type === 'start-ellipsis' || type === 'end-ellipsis') {
-                        children = '…';
-                    } else if (type === 'page') {
-                        children = (
-                            <Button
-                                type="button"
-                                {...item}
-                                variant={selected ? 'contained' : undefined}
-                                sx={{ borderRadius: 10, minWidth: 40 }}
-                                size="small"
-                            >
-                                {page}
-                            </Button>
-                        );
-                    } else if (type === 'first') {
-                        children = (
-                            <IconButton aria-label="delete" color="primary" {...item} sx={{ mr: 0 }}>
-                                <KeyboardDoubleArrowLeft />
-                            </IconButton>
-                        );
-                    } else if (type === 'last') {
-                        children = (
-                            <IconButton aria-label="delete" color="primary" {...item} sx={{ ml: 0 }}>
-                                <KeyboardDoubleArrowRight />
-                            </IconButton>
-                        );
-                    } else {
-                        // nothing. other item types should be on the row below
-                    }
-
-                    return <li key={index}>{children}</li>;
-                })}
-            </List>
-            <List style={{ justifyContent: 'center', marginBottom: 40 }}>
-                {bottomRowItems.map(({ page, type, selected, ...item }, index) => {
-                    let children = null;
-
-                    if (type === 'next' || type === 'previous') {
-                        children = (
-                            <Button type="button" {...item} variant="contained" sx={{ mt: 1, ml: 1, width: 100 }}>
-                                {type}
-                            </Button>
-                        );
-                    }
-
-                    return <li key={index}>{children}</li>;
-                })}
-            </List>
-        </nav>
-    );
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Button variant="contained" disabled={prevDisabled} onClick={onPreviousClicked}>Prev</Button>
+            <PageDropdown></PageDropdown>
+            <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={age}
+          label="Age"
+          onChange={handleChange}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+            <Button variant="contained" disabled={nextDisabled} onClick={onNextClicked}>Next</Button>
+        </Box>
+    )   
 };
 
 export default BlockPagination;
