@@ -83,10 +83,6 @@ const Block = () => {
         );
     }
 
-    const CustomPagination = () => (
-        <BlockPagination rowsState={rowsState} pageSize={pageSize} setRowsState={setRowsState} />
-    );
-
     return (
         <>
             <form onSubmit={onSearchClicked} id="search-form">
@@ -137,7 +133,6 @@ const Block = () => {
                     density="compact"
                     disableColumnMenu
                     components={{
-                        // Pagination: CustomPagination,
                         LoadingOverlay: CustomLoadingOverlay,
                     }}
                     hideFooter={true}

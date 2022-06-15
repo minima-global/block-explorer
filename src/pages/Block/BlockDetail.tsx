@@ -98,7 +98,11 @@ const BlockDetail = () => {
     // recieves an array of inputs or outputs and creates the display components
     const InOut = ({ inout }: any) => {
         if (inout.length === 0) {
-            return <></>;
+            return (
+                <DetailContainer>
+                    <DisplayItem heading="TXPOW is not a transaction" text={''} />
+                </DetailContainer>
+            );
         } else {
             return (
                 <>

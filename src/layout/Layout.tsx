@@ -57,13 +57,7 @@ export default function Layout() {
                 </Toolbar>
             </AppBar>
 
-            <Box
-                component="main"
-                // sx={{
-                //     width: { sm: `calc(100% - ${drawerWidth}px)` },
-                //     ml: { sm: `${drawerWidth}px` },
-                // }}
-            >
+            <Box component="main">
                 <Container maxWidth="md">{myRoutes}</Container>
             </Box>
         </>
