@@ -30,7 +30,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "build-zip": "npm run build && rm block_* && date=$(date +%Y_%m_%d_%H%M) && cd build && zip -r block_${date}.zip . && mv block_${date}.zip ../",
+        "build-zip": "npm run build && rm block_202* && date=$(date +%Y_%m_%d_%H%M) && cd build && zip -r block_${date}.mds.zip . && mv block_${date}.mds.zip ../",
         "reload": "rm -r node_modules/ && npm i && npm run start",
         "mds-uninstall": "curl -X POST http://localhost:8090/mds/manage/uninstall -d '{\"port\": \"8081\"}'",
         "mds-install": "curl --form package=\"@/home/neil/minima/minidapp-boilerplate/block.zip\" http://localhost:8090/mds/manage/install -v",
